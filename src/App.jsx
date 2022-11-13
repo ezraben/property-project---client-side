@@ -7,15 +7,17 @@ import LoginPage from "./Pages/loginPage/Login.page";
 import SignupPage from "./Pages/SignupPage/Signup.page";
 import CreateCardComponent from "./Components/CreateCardComponent/CreateCard.component";
 import DashbordPage from "./Pages/DashbordPage/Dashbord.page";
+import TestImg from "./Pages/DashbordPage/testImg/TestImg";
 
 function App() {
   return (
     <div className="container">
       <ToastContainer />
       {/* <HomePage /> */}
-      {/* <SignupPage /> */}
-      <CreateCardComponent />
-      <DashbordPage />
+      <SignupPage />
+      {/* <CreateCardComponent /> */}
+      {/* <DashbordPage /> */}
+      {/* <TestImg /> */}
 
       {/* <LoginPage /> */}
     </div>

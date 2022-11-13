@@ -6,12 +6,18 @@ import { toast } from "react-toastify";
 
 import signUpSchema from "../../validation/signUp.validation";
 
+////////////////////////////////////
+//from here singup that works --- send secuusee messge also if amail exsist- but dos not create in data base in that case --- also befor multer
+
 const SignupComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  // const [img, setImg] = useState(null);
+  // const [name, setName] = useState();
+  const [img, setImg] = useState(null);
   const [phone, setPhone] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -30,6 +36,14 @@ const SignupComponent = () => {
   const handleConfirmPassword = (ev) => {
     setConfirmPassword(ev.target.value);
   };
+  const handelImgChange = (ev) => {
+    setImg(ev.target.files[0]);
+    console.log(ev);
+    // console.log(ev.target.files[0]);
+
+    // setImg(ev.target.files[0]);
+  };
+
   const handlePhoneChange = (ev) => {
     setPhone(ev.target.value);
   };
@@ -40,6 +54,19 @@ const SignupComponent = () => {
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
+    // const fd = new FormData();
+    // fd.append("img", setImg(imgSelectedHandler.name));
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("confirmPassword", confirmPassword);
+    formData.append("img", img);
+    formData.append("phone", phone);
+    formData.append("isAdmin", isAdmin);
+    // formData.append("img", setImg(imgSelectedHandler.name));
+    console.log(formData);
 
     const validateValue = Joi.validate(
       {
@@ -48,6 +75,8 @@ const SignupComponent = () => {
         email,
         password,
         confirmPassword,
+        // img,
+        // img,
         phone,
         isAdmin,
       },
@@ -62,6 +91,7 @@ const SignupComponent = () => {
 
     if (error) {
       console.log("error", error);
+
       let errorArr = [...validateValue.error.details];
 
       for (let i = 0; i < errorArr.length; i++) {
@@ -78,17 +108,25 @@ const SignupComponent = () => {
       console.log("error from exios", error);
     } else {
       axios
-        .post("/auth/signup", {
-          firstName,
-          lastName,
-          email,
-          password,
-          confirmPassword,
-          phone,
-          isAdmin,
-        })
+        .post(
+          "/auth/signup",
+          formData
+          // {
+          //   firstName,
+          //   lastName,
+          //   email,
+          //   password,
+          //   confirmPassword,
+          //   img,
+          //   // img,
+          //   phone,
+          //   isAdmin,
+          // }
+        )
         .then(({ data }) => {
           console.log("data", data);
+          console.log("formdata", formData);
+
           localStorage.setItem("token", data.msg);
           console.log(data.msg);
         })
@@ -100,7 +138,14 @@ const SignupComponent = () => {
 
   return (
     <div>
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handelSubmit} encType="multipart/form-data">
+        {/* <input
+          type="img"
+          htmlFor="img"
+          name="img"
+          id="img"
+          onChange={imgSelectedHandler}
+        /> */}
         <div className="mb-3">
           <label htmlFor="Name" className="form-label">
             first Name
@@ -172,6 +217,8 @@ const SignupComponent = () => {
             password and confirm password must match
           </div>
         )}
+        <label htmlFor="img">img</label>
+        <input type="file" name="img" id="img" onChange={handelImgChange} />
         <div className="mb-3">
           <label htmlFor="phone" className="form-label">
             Phone Number (optional)
@@ -213,5 +260,7 @@ const SignupComponent = () => {
     </div>
   );
 };
+////////////////////////////////////
+//until  here singup that works --- send secuusee messge also if amail exsist- but dos not create in data base in that case --- also befor multer
 
 export default SignupComponent;
