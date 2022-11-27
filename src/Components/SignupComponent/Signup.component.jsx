@@ -3,6 +3,7 @@ import axios from "axios";
 import Joi from "joi-browser";
 import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
+import { useHistory } from "react-router-dom";
 
 import signUpSchema from "../../validation/signUp.validation";
 
@@ -51,6 +52,7 @@ const SignupComponent = () => {
     setIsAdmin(ev.target.checked);
     console.log(ev.target.checked);
   };
+  const history = useHistory();
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
@@ -129,6 +131,7 @@ const SignupComponent = () => {
 
           localStorage.setItem("token", data.msg);
           console.log(data.msg);
+          // history.push("/CreateCardComponent");
         })
         .catch((err) => {
           console.log("err from exios", err);

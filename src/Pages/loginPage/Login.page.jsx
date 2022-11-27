@@ -3,6 +3,7 @@ import Joi from "joi-browser";
 import { toast } from "react-toastify";
 import axios from "axios";
 import loginSchema from "../../validation/Login.validation";
+import { useHistory } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ const LoginPage = () => {
   const handelPassword = (ev) => {
     setPassword(ev.target.value);
   };
+  const history = useHistory();
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
@@ -33,6 +35,9 @@ const LoginPage = () => {
           localStorage.setItem("token", data.msg);
           console.log("data", data);
           console.log("token", data.msg);
+          if (data.status === "Success") {
+            history.push("/DashbordPage");
+          }
         })
 
         .catch((err) => {

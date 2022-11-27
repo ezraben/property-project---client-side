@@ -1,37 +1,31 @@
-import { useState, useEffect } from "react";
+import SearchBarComponent from "../SearchBarComponent/SearchBar.component";
 import axios from "axios";
+import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import CardComponent from "../../Components/CardComponent/Card.component";
-import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.component";
+import { useHistory } from "react-router-dom";
+import CardComponent from "../CardComponent/Card.component";
 
-const DashbordPage = () => {
+const FilterdPropertyByPrice = () => {
+  const [price, setPrice] = useState("");
   const [cardsArr, setCardsArr] = useState([]);
+  const handelePriceChange = (ev) => {
+    setPrice(ev.target.value);
+  };
   useEffect(() => {
-    getAllCards();
+    // getAllCards();
     console.log("use effect");
   }, []);
-
-  const getAllCards = () => {
+  const getFilterdCrads = () => {
     axios
-      .get("/properties")
+      .post("/properties/filterByPrice", { price })
       .then((res) => {
-        // console.log(" from axios", res.data[0]);
         setCardsArr(res.data);
+        console.log(cardsArr);
       })
       .catch((err) => {
-        console.log("axios error", err);
-        toast.error("cannot get cards", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
+        console.log("err from axios", err);
       });
   };
-
   const renderRowsFromArr = (arrOfItems) => {
     /*
         renderRowsFromArr will recive array of property cards
@@ -74,25 +68,42 @@ const DashbordPage = () => {
     }
     return newArr;
   };
+
   return (
-    <div className="topSpaceFromNav">
-      {/* <SearchBarComponent /> */}
-      <h1> Your Dashboard</h1>
+    <div>
+      {/* <form onSubmit={handelSubmit}> */}
+      <h1>Filter Propety buy max price</h1>
+      <input
+        className="form-control mr-sm-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        onChange={handelePriceChange}
+        value={price}
+      />
+      {/* <h1>{test}</h1> */}
+      <button
+        className="btn btn-outline-success my-2 my-sm-0"
+        type="submit"
+        onClick={getFilterdCrads}
+      >
+        Search
+      </button>
+      {/* </form> */}
+      {renderRowsFromArr(cardsArr)}
       {cardsArr.length === 0 && (
+        <h1 className="noCardMsg">
+          your cards will show up here after you create them, if you created
+          them already make sure you search from 400,000
+        </h1>
+      )}
+      {/* {cardsArr.length > 0 &&  (
         <h1 className="noCardMsg">
           your cards will show up here after you create them
         </h1>
-      )}
-      {renderRowsFromArr(cardsArr)}{" "}
-      {/* {showTheEditPopUp && (
-          <EditCardComponent
-            onCancel={handeleCancelEdite}
-            onEditDone={hendeleEditCard}
-            {...dataToEdite}
-          />
-        )} */}
+      )} */}
     </div>
   );
 };
 
-export default DashbordPage;
+export default FilterdPropertyByPrice;

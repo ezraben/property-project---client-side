@@ -1,25 +1,76 @@
 import logo from "./logo.svg";
 import "./App.css";
-import HomePage from "./Pages/HomePage/HomePage";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import HomePage from "./Pages/HomePage/HomePage";
 import LoginPage from "./Pages/loginPage/Login.page";
 import SignupPage from "./Pages/SignupPage/Signup.page";
 import CreateCardComponent from "./Components/CreateCardComponent/CreateCard.component";
 import DashbordPage from "./Pages/DashbordPage/Dashbord.page";
-import TestImg from "./Pages/DashbordPage/testImg/TestImg";
+import CardComponent from "./Components/CardComponent/Card.component";
+import NavBarComponent from "./Components/NavBarComponent/NavBar.component";
+import ForgetPasswordPage from "./Pages/ForgetPasswordPage/ForgetPassword.page";
+import PageNotFound from "./Pages/pageNotFound/PageNotFound";
+import SearchBarComponent from "./Components/SearchBarComponent/SearchBar.component";
+import FilterdPropertyPage from "./Pages/filterdPropertyPage/FilterdProperty.page";
+import FilterdPropertyByPrice from "./Components/filterByPriceComponent/FilterByPrice.component";
+import FilterdPropertyByMinPrice from "./Components/FilterByMinPriceComponent/FilterByMinPrice.component";
 
 function App() {
   return (
     <div className="container">
+      <NavBarComponent />
       <ToastContainer />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact>
+            <HomePage />
+          </Route>
+          <Route path="/SignupPage">
+            <SignupPage />
+          </Route>
+          <Route path="/CreateCardComponent">
+            <CreateCardComponent />
+          </Route>
+          <Route path="/CardComponent">
+            <CardComponent />
+          </Route>
+          <Route path="/DashbordPage">
+            <DashbordPage />
+          </Route>
+          {/* <Route path="/SearchBar">
+            <SearchBarComponent />
+          </Route> */}
+          <Route path="/FilterdPropertyPage">
+            <FilterdPropertyPage />
+          </Route>
+          <Route path="/filterByPrice">
+            <FilterdPropertyByPrice />
+          </Route>
+          <Route path="/filterByMinPrice">
+            <FilterdPropertyByMinPrice />
+          </Route>
+          <Route path="/LoginPage">
+            <LoginPage />
+          </Route>
+          <Route path="/recoverPassword/:keyParam/:iv/:encryptedData">
+            <ForgetPasswordPage />
+          </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+
       {/* <HomePage /> */}
-      <SignupPage />
+      {/* <SignupPage /> */}
       {/* <CreateCardComponent /> */}
+      {/* <CardComponent /> */}
       {/* <DashbordPage /> */}
-      {/* <TestImg /> */}
 
       {/* <LoginPage /> */}
+      {/* <ForgetPasswordPage /> */}
     </div>
   );
 }
