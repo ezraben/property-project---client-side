@@ -57,6 +57,7 @@ function App() {
           <Route path="/recoverPassword/:keyParam/:iv/:encryptedData">
             <ForgetPasswordPage />
           </Route>
+
           <Route path="*">
             <PageNotFound />
           </Route>
