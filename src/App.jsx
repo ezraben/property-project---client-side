@@ -1,6 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 import HomePage from "./Pages/HomePage/HomePage";
@@ -16,62 +16,52 @@ import SearchBarComponent from "./Components/SearchBarComponent/SearchBar.compon
 import FilterdPropertyPage from "./Pages/filterdPropertyPage/FilterdProperty.page";
 import FilterdPropertyByPrice from "./Components/filterByPriceComponent/FilterByPrice.component";
 import FilterdPropertyByMinPrice from "./Components/FilterByMinPriceComponent/FilterByMinPrice.component";
+import LikedPropertyComponent from "./likedPropertyComponent/LikedProperty.component";
 
 function App() {
   return (
     <div className="container">
       <NavBarComponent />
       <ToastContainer />
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/SignupPage">
-            <SignupPage />
-          </Route>
-          <Route path="/CreateCardComponent">
-            <CreateCardComponent />
-          </Route>
-          <Route path="/CardComponent">
-            <CardComponent />
-          </Route>
-          <Route path="/DashbordPage">
-            <DashbordPage />
-          </Route>
-          {/* <Route path="/SearchBar">
-            <SearchBarComponent />
-          </Route> */}
-          <Route path="/FilterdPropertyPage">
-            <FilterdPropertyPage />
-          </Route>
-          <Route path="/filterByPrice">
-            <FilterdPropertyByPrice />
-          </Route>
-          <Route path="/filterByMinPrice">
-            <FilterdPropertyByMinPrice />
-          </Route>
-          <Route path="/LoginPage">
-            <LoginPage />
-          </Route>
-          <Route path="/recoverPassword/:keyParam/:iv/:encryptedData">
-            <ForgetPasswordPage />
-          </Route>
 
-          <Route path="*">
-            <PageNotFound />
-          </Route>
-        </Switch>
-      </BrowserRouter>
-
-      {/* <HomePage /> */}
-      {/* <SignupPage /> */}
-      {/* <CreateCardComponent /> */}
-      {/* <CardComponent /> */}
-      {/* <DashbordPage /> */}
-
-      {/* <LoginPage /> */}
-      {/* <ForgetPasswordPage /> */}
+      <Switch>
+        <Route path="/" exact>
+          <HomePage />
+        </Route>
+        <Route path="/SignupPage">
+          <SignupPage />
+        </Route>
+        <Route path="/CreateCardComponent">
+          <CreateCardComponent />
+        </Route>
+        <Route path="/CardComponent">
+          <CardComponent />
+        </Route>
+        <Route path="/DashbordPage">
+          <DashbordPage />
+        </Route>
+        <Route path="/FilterdPropertyPage">
+          <FilterdPropertyPage />
+        </Route>
+        <Route path="/filterByPrice">
+          <FilterdPropertyByPrice />
+        </Route>
+        <Route path="/filterByMinPrice">
+          <FilterdPropertyByMinPrice />
+        </Route>
+        <Route path="/LoginPage">
+          <LoginPage />
+        </Route>
+        <Route path="/recoverPassword/:keyParam/:iv/:encryptedData">
+          <ForgetPasswordPage />
+        </Route>
+        <Route path="/LikedPropertyComponent">
+          <LikedPropertyComponent />
+        </Route>
+        <Route path="*">
+          <PageNotFound />
+        </Route>
+      </Switch>
     </div>
   );
 }

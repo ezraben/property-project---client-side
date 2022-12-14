@@ -31,6 +31,7 @@ const EditPopUPComponent = (props) => {
       cardSchema,
       { abortEarly: false }
     );
+    console.log("validateValue.value", validateValue.value);
     const { error } = validateValue;
 
     if (error) {
@@ -48,12 +49,15 @@ const EditPopUPComponent = (props) => {
           progress: undefined,
         });
       }
+      throw error;
     }
+
     let dataToSend = {
       price,
       description,
       address,
     };
+
     console.log("dataToSend", dataToSend);
     props.onEditDone(
       props._id,
@@ -61,27 +65,6 @@ const EditPopUPComponent = (props) => {
       dataToSend.description,
       dataToSend.address
     );
-    // console.log("validation error", error);
-    // else {
-    //   axios
-    //     .post("/properties", dataToSend)
-    //     .then((data) => {
-    //       console.log(data);
-    //       toast.success("🦄 Property card created successfully!", {
-    //         position: "top-right",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //       });
-    //     })
-    //     .catch((err) => {
-    //       console.log("err from axios", err);
-    //     });
-    // }
   };
   const hendeleCancelClick = () => {
     props.onEditCancel();

@@ -10,9 +10,17 @@ import axios from "axios";
 /* import bootstrap to react project */
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js";
+///
 
 //import  toastify
 import "react-toastify/dist/ReactToastify.css";
+
+//redux
+import { Provider } from "react-redux";
+import store from "./store/index";
+
+//react router dom
+import { BrowserRouter } from "react-router-dom";
 
 axios.defaults.baseURL = "http://localhost:3001/api";
 
@@ -29,7 +37,11 @@ axios.interceptors.request.use((config) => {
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

@@ -4,10 +4,15 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import loginSchema from "../../validation/Login.validation";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
+import jwt_decode from "jwt-decode";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   const handelEmail = (ev) => {
     setEmail(ev.target.value);
@@ -35,7 +40,11 @@ const LoginPage = () => {
           localStorage.setItem("token", data.msg);
           console.log("data", data);
           console.log("token", data.msg);
+          console.log("tolen decoded", jwt_decode(data.msg));
+          dispatch(authActions.updateUserData(jwt_decode(data.msg)));
+
           if (data.status === "Success") {
+            dispatch(authActions.login());
             history.push("/DashbordPage");
           }
         })
