@@ -1,9 +1,57 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-
+import { Fragment } from "react";
 function NavBarComponent() {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const userData = useSelector((state) => state.auth.userData);
+  const showLogin = () => {
+    if (userData.email) {
+      return (
+        <Fragment>
+          <li className="nav-item active">
+            <NavLink className="nav-link" to="/">
+              Home <span className="sr-only">(current)</span>
+            </NavLink>
+          </li>
+          <li className="nav-item active">
+            <NavLink className="nav-link active" to="/DashbordPage">
+              Dashbord
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/CreateCardComponent">
+              CreateCardComponent
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/LikedPropertyPage">
+              LikedPropertyPage
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/logout">
+              logout
+            </NavLink>
+          </li>
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/LoginPage">
+              login
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/SignupPage">
+              register
+            </NavLink>
+          </li>
+        </Fragment>
+      );
+    }
+  };
 
   return (
     <nav
@@ -27,28 +75,7 @@ function NavBarComponent() {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className="navbar-nav mr-auto">
-          <li className="nav-item active">
-            <NavLink className="nav-link" to="/">
-              Home <span className="sr-only">(current)</span>
-            </NavLink>
-            <NavLink className="nav-link active" to="/DashbordPage">
-              Dashbord
-            </NavLink>
-            <NavLink className="nav-link active" to="/LoginPage">
-              login
-            </NavLink>
-            <NavLink className="nav-link active" to="/SignupPage">
-              register
-            </NavLink>
-          </li>
-
-          <li className="nav-item">
-            <NavLink className="nav-link active" to="/CreateCardComponent">
-              CreateCardComponent
-            </NavLink>
-          </li>
-        </ul>
+        <ul className="navbar-nav mr-auto">{showLogin()}</ul>
         <form className="form-inline my-2 my-lg-0">
           <input
             className="form-control mr-sm-2"

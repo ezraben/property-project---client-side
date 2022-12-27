@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "../../Components/CardComponent/Card.component";
@@ -6,7 +7,7 @@ import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.co
 import { cloneDeep } from "lodash";
 import EditPopUPComponent from "../../Components/editPropertyPopup/EditePropertyPopUp.component";
 import { log } from "joi-browser";
-import LikedPropertyComponent from "../../likedPropertyComponent/LikedProperty.component";
+import LikedPropertyComponent from "../../Components/likedPropertyComponent/LikedProperty.component";
 
 const DashbordPage = () => {
   const [cardsArr, setCardsArr] = useState([]);
@@ -14,6 +15,8 @@ const DashbordPage = () => {
   const [likedPropertyId, setLikedPropertyId] = useState(null);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [showLikedPropertyPopUp, setShowLikedPropertyPopUp] = useState(false);
+  const userData = useSelector((state) => state.auth.userData);
+  const [_id, set_id] = useState({});
 
   useEffect(() => {
     getAllCards();
@@ -28,7 +31,7 @@ const DashbordPage = () => {
         let newCardsArr = cloneDeep(cardsArr);
         newCardsArr = newCardsArr.filter((item) => item._id !== id);
         setCardsArr(newCardsArr);
-        toast.success("🦄 Card updated successfully!", {
+        toast.success("🦄 Card deleted successfully!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -40,7 +43,7 @@ const DashbordPage = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error("🦄 Card updated successfully!", {
+        toast.error("🦄 something went wrong!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -76,6 +79,7 @@ const DashbordPage = () => {
   ) => {
     axios
       .put(`/properties/${_id}/${price}/${description}/${address}`)
+      // .put(`/ /${_id}/${price}/${description}/${address}`)
       .then((res) => {
         let newArrOfCards = cloneDeep(cardsArr);
 
@@ -111,8 +115,11 @@ const DashbordPage = () => {
     let ktemp = cloneDeep(cardsArr.find((item) => item._id === id));
     setLikedPropertyId(ktemp);
     console.log("ktemp", ktemp);
-    setLikedPropertyId(cardsArr.find((item) => item._id === id));
-    console.log("likedPropertyId", likedPropertyId._id);
+    setLikedPropertyId(
+      cardsArr.find((item) => item._id === id),
+      userData.email
+    );
+
     // console.log("likedPropertyId._id", likedPropertyId._id);
     // setDataToEdit(ktemp);
     // console.log("ktemp", ktemp);
@@ -130,30 +137,58 @@ const DashbordPage = () => {
   //////////////////////////////
   const handleLikeCard = (_id) => {
     axios
-      .get(`properties/likedProperties/${_id}`)
+      .get(`properties/likedProperties/${_id.id}`)
+
       // .get(`properties/likedProperties/${ _id }`)
 
       .then((res) => {
-        console.log("_id from dashbord", _id);
+        console.log("_id, and email from dashbord", _id);
 
-        let newArrOfCards = cloneDeep(cardsArr);
+        // let newArrOfCards = cloneDeep(cardsArr);
 
-        let cardItemIndx = newArrOfCards.findIndex((item) => item._id === _id);
-        if (cardItemIndx !== -1) {
-          // newArrOfCards[cardItemIndx] = { ...cloneDeep(upDatedProperty), _id };
+        // let cardItemIndx = newArrOfCards.findIndex((item) => item._id === _id);
+        // console.log("kkkkkkkkkkkkkkkkkkk");
+        console.log("likedPropertyId", likedPropertyId);
+        // if (cardItemIndx !== -1) {
+        // newArrOfCards[cardItemIndx] = { ...cloneDeep(upDatedProperty), _id };
 
-          setCardsArr(newArrOfCards);
-          toast.success("🦄 Card updated successfully!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
+        // setCardsArr(newArrOfCards);
+
+        //////////////////////////////////////////
+        // from here trying to add axios to licked property
+
+        axios
+          .post(
+            `/properties/addLikedPropertyId?id=${_id.id}&email=${_id.email}`
+          )
+          .then(({ data }) => {
+            console.log("dataaaa", data, "idddddd0", _id);
+          })
+          // .then((req, res) => {
+          //   // req.data = _id;
+          //   req = _id;
+          //   console.log("req", req);
+          //   console.log("hhhhhhhhhhhhhhhh");
+
+          // console.log("iddddddddddd", _id.id);
+          // console.log("emailllllllll", _id.email);
+          // })
+          .catch((err) => {
+            console.log(" err from axios", err);
           });
-          setShowLikedPropertyPopUp(false);
-        }
+        //////////////////////////////////////////
+        // until here trying to add axios to licked property
+        // toast.success("🦄 Card updated successfully!", {
+        //   position: "top-right",
+        //   autoClose: 5000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        //   progress: undefined,
+        // });
+        setShowLikedPropertyPopUp(false);
+        // }
 
         setLikedPropertyId(null);
       })
@@ -249,6 +284,7 @@ const DashbordPage = () => {
           onLikeCancel={handleCanceleLike}
           onLikeDone={handleLikeCard}
           {...likedPropertyId}
+
           // {...dataToEdit}
         />
       )}

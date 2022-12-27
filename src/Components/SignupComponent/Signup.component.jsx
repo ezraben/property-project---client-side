@@ -130,8 +130,10 @@ const SignupComponent = () => {
           console.log("formdata", formData);
 
           localStorage.setItem("token", data.msg);
-          console.log(data.msg);
-          // history.push("/CreateCardComponent");
+
+          if (data.status === "Success") {
+            history.push("/LoginPage", { email: email, password: password });
+          }
         })
         .catch((err) => {
           console.log("err from exios", err);

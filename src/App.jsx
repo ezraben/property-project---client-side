@@ -16,7 +16,9 @@ import SearchBarComponent from "./Components/SearchBarComponent/SearchBar.compon
 import FilterdPropertyPage from "./Pages/filterdPropertyPage/FilterdProperty.page";
 import FilterdPropertyByPrice from "./Components/filterByPriceComponent/FilterByPrice.component";
 import FilterdPropertyByMinPrice from "./Components/FilterByMinPriceComponent/FilterByMinPrice.component";
-import LikedPropertyComponent from "./likedPropertyComponent/LikedProperty.component";
+import LikedPropertyComponent from "./Components/likedPropertyComponent/LikedProperty.component";
+import LogOutPage from "./Pages/logOutPage/LogOutPage.page";
+import LikedPropertyPage from "./Pages/likedPropertyPage/LikedPropertyPage";
 
 function App() {
   return (
@@ -57,6 +59,12 @@ function App() {
         </Route>
         <Route path="/LikedPropertyComponent">
           <LikedPropertyComponent />
+        </Route>
+        <Route path="/logout">
+          <LogOutPage />
+        </Route>
+        <Route path="/LikedPropertyPage">
+          <LikedPropertyPage />
         </Route>
         <Route path="*">
           <PageNotFound />

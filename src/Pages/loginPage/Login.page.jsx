@@ -3,7 +3,8 @@ import Joi from "joi-browser";
 import { toast } from "react-toastify";
 import axios from "axios";
 import loginSchema from "../../validation/Login.validation";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
 import jwt_decode from "jwt-decode";
@@ -13,6 +14,15 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    // console.log("location", location);
+    if (location.state && location.state.email && location.state.password) {
+      setEmail(location.state.email);
+      setPassword(location.state.password);
+    }
+  }, []);
 
   const handelEmail = (ev) => {
     setEmail(ev.target.value);
@@ -50,8 +60,8 @@ const LoginPage = () => {
         })
 
         .catch((err) => {
-          console.log("err from axios", err);
-          toast.error(err.response.data.message, {
+          console.log("err from axiossssssssssss", err);
+          toast.error("invalid email or password", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
