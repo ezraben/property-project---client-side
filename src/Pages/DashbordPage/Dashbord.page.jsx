@@ -26,7 +26,7 @@ const DashbordPage = () => {
   const handleDeleteCard = (id) => {
     axios
       .delete(`/properties/${id}`)
-      // .delete(`/properties/:id?${id}`)
+
       .then((res) => {
         let newCardsArr = cloneDeep(cardsArr);
         newCardsArr = newCardsArr.filter((item) => item._id !== id);
@@ -119,43 +119,28 @@ const DashbordPage = () => {
       cardsArr.find((item) => item._id === id),
       userData.email
     );
-
-    // console.log("likedPropertyId._id", likedPropertyId._id);
-    // setDataToEdit(ktemp);
-    // console.log("ktemp", ktemp);
-    // setDataToEdit(cardsArr.find((item) => item._id === id));
-    // console.log("dataToEdit", dataToEdit);
   };
   const handleCanceleLike = () => {
     setShowLikedPropertyPopUp(false);
   };
-  // const handleCancele = () => {
-  //   setShowLikedPropertyPopUp(false);
-  // };
-  /////////////////////////////////////
-  //////////////////////////////////////
-  //////////////////////////////
+
   const handleLikeCard = (_id) => {
     axios
       .get(`properties/likedProperties/${_id.id}`)
 
-      // .get(`properties/likedProperties/${ _id }`)
-
       .then((res) => {
         console.log("_id, and email from dashbord", _id);
+        toast.success("🦄 woop woop you just licked this property", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
 
-        // let newArrOfCards = cloneDeep(cardsArr);
-
-        // let cardItemIndx = newArrOfCards.findIndex((item) => item._id === _id);
-        // console.log("kkkkkkkkkkkkkkkkkkk");
         console.log("likedPropertyId", likedPropertyId);
-        // if (cardItemIndx !== -1) {
-        // newArrOfCards[cardItemIndx] = { ...cloneDeep(upDatedProperty), _id };
-
-        // setCardsArr(newArrOfCards);
-
-        //////////////////////////////////////////
-        // from here trying to add axios to licked property
 
         axios
           .post(
@@ -164,31 +149,12 @@ const DashbordPage = () => {
           .then(({ data }) => {
             console.log("dataaaa", data, "idddddd0", _id);
           })
-          // .then((req, res) => {
-          //   // req.data = _id;
-          //   req = _id;
-          //   console.log("req", req);
-          //   console.log("hhhhhhhhhhhhhhhh");
 
-          // console.log("iddddddddddd", _id.id);
-          // console.log("emailllllllll", _id.email);
-          // })
           .catch((err) => {
             console.log(" err from axios", err);
           });
-        //////////////////////////////////////////
-        // until here trying to add axios to licked property
-        // toast.success("🦄 Card updated successfully!", {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        // });
+
         setShowLikedPropertyPopUp(false);
-        // }
 
         setLikedPropertyId(null);
       })
@@ -200,8 +166,12 @@ const DashbordPage = () => {
   };
 
   const getAllCards = () => {
+    console.log("userData", userData.email);
+    if (!userData.email) {
+    }
     axios
-      .get("/properties")
+      .get(`/properties?userEmail=${userData.email}`)
+
       .then((res) => {
         setCardsArr(res.data);
       })
@@ -217,14 +187,10 @@ const DashbordPage = () => {
           progress: undefined,
         });
       });
+    // }
   };
 
   const renderRowsFromArr = (arrOfItems) => {
-    /*
-        renderRowsFromArr will recive array of property cards
-        and will create html elms to display the  property cards
-        in the page
-    */
     let newArr = [];
     let inArr = [];
     let l = arrOfItems.length;
@@ -288,14 +254,6 @@ const DashbordPage = () => {
           // {...dataToEdit}
         />
       )}
-
-      {/* {showTheEditPopUp && (
-          <EditCardComponent
-            onCancel={handeleCancelEdite}
-            onEditDone={handleEditCard}
-            {...dataToEdit}
-          />
-        )} */}
     </div>
   );
 };

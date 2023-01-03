@@ -46,18 +46,44 @@ const LoginPage = () => {
       axios
         .post("/auth/login", { email, password })
         // .post("/auth/login", { email, password })
+
         .then(({ data }) => {
           localStorage.setItem("token", data.msg);
           console.log("data", data);
           console.log("token", data.msg);
           console.log("tolen decoded", jwt_decode(data.msg));
+          // console.log("isAdmin", data.msg2);
           dispatch(authActions.updateUserData(jwt_decode(data.msg)));
 
           if (data.status === "Success") {
             dispatch(authActions.login());
+            if (data.msg2 === true) {
+              dispatch(authActions.upDateIsAdmin(data.msg2));
+              console.log("data.msg2", data.msg2);
+              // console.log();
+            }
             history.push("/DashbordPage");
           }
         })
+        ///////////////////
+        ////////////////
+        //befro addind is admin
+        // .then(({ data }) => {
+        //   localStorage.setItem("token", data.msg);
+        //   console.log("data", data);
+        //   console.log("token", data.msg);
+        //   console.log("tolen decoded", jwt_decode(data.msg));
+        //   console.log("isAdmin", data.isAdmin);
+        //   dispatch(authActions.updateUserData(jwt_decode(data.msg)));
+
+        //   if (data.status === "Success") {
+        //     dispatch(authActions.login());
+        //     history.push("/DashbordPage");
+        //   }
+        // })
+        ///////////////////
+        ////////////////
+        //befro addind is admin
 
         .catch((err) => {
           console.log("err from axiossssssssssss", err);

@@ -19,6 +19,7 @@ import FilterdPropertyByMinPrice from "./Components/FilterByMinPriceComponent/Fi
 import LikedPropertyComponent from "./Components/likedPropertyComponent/LikedProperty.component";
 import LogOutPage from "./Pages/logOutPage/LogOutPage.page";
 import LikedPropertyPage from "./Pages/likedPropertyPage/LikedPropertyPage";
+import AllCardPage from "./Pages/allCardsPage/AllCards.page";
 
 function App() {
   return (
@@ -65,6 +66,9 @@ function App() {
         </Route>
         <Route path="/LikedPropertyPage">
           <LikedPropertyPage />
+        </Route>
+        <Route path="/allCards">
+          <AllCardPage />
         </Route>
         <Route path="*">
           <PageNotFound />

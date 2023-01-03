@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import axios from "axios";
 import Joi from "joi-browser";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 import cardSchema from "../../validation/CreateCard.Validation";
 
@@ -9,6 +10,9 @@ const CreateCardComponent = () => {
   const [price, setPrice] = useState("");
   const [description, setDdescription] = useState("");
   const [address, setAddress] = useState("");
+
+  const userData = useSelector((state) => state.auth.userData);
+  const isAdmin = useSelector((state) => state.auth.admin);
 
   const handlePriceChange = (ev) => {
     setPrice(ev.target.value);
@@ -27,6 +31,8 @@ const CreateCardComponent = () => {
       cardSchema,
       { abortEarly: false }
     );
+    const userEmail = userData.email;
+
     const { error } = validateValue;
     let dataToSend = {
       price,
@@ -52,7 +58,7 @@ const CreateCardComponent = () => {
       console.log("validation error", error);
     } else {
       axios
-        .post("/properties", dataToSend)
+        .post(`/properties?userEmail=${userEmail}`, dataToSend)
         .then((data) => {
           console.log(data);
           toast.success("🦄 Property card created successfully!", {
@@ -71,6 +77,13 @@ const CreateCardComponent = () => {
         });
     }
   };
+  if (isAdmin === false) {
+    return (
+      <Fragment>
+        <h1> you must have an admin account to create a property card</h1>
+      </Fragment>
+    );
+  }
 
   return (
     <form onSubmit={handelSubmit}>

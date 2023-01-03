@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initalAuthState = {
   loggedIn: false,
+  admin: false,
   userData: {},
 };
 
@@ -16,10 +17,17 @@ const authSlice = createSlice({
     },
     loggedOut(state) {
       state.loggedIn = false;
+      state.admin = false;
       state.userData = {};
+    },
+    isAdmin(state) {
+      state.admin = true;
     },
     updateUserData(state, action) {
       state.userData = action.payload;
+    },
+    upDateIsAdmin(state, action) {
+      state.admin = action.payload;
     },
   },
 });

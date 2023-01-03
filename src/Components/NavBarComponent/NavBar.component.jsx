@@ -1,11 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Fragment } from "react";
+import AllCardPage from "../../Pages/allCardsPage/AllCards.page";
 function NavBarComponent() {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const userData = useSelector((state) => state.auth.userData);
+  const isAdmin = useSelector((state) => state.auth.admin);
   const showLogin = () => {
-    if (userData.email) {
+    if (userData.email && isAdmin) {
       return (
         <Fragment>
           <li className="nav-item active">
@@ -29,6 +31,38 @@ function NavBarComponent() {
             </NavLink>
           </li>
           <li className="nav-item">
+            <NavLink className="nav-link active" to="/allCards">
+              allCards
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/logout">
+              logout
+            </NavLink>
+          </li>
+        </Fragment>
+      );
+    }
+    if (userData.email) {
+      return (
+        <Fragment>
+          <li className="nav-item active">
+            <NavLink className="nav-link" to="/">
+              Home <span className="sr-only">(current)</span>
+            </NavLink>
+          </li>
+
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/LikedPropertyPage">
+              LikedPropertyPage
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/allCards">
+              allCards
+            </NavLink>
+          </li>
+          <li className="nav-item">
             <NavLink className="nav-link active" to="/logout">
               logout
             </NavLink>
@@ -46,6 +80,11 @@ function NavBarComponent() {
           <li className="nav-item">
             <NavLink className="nav-link active" to="/SignupPage">
               register
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to="/allCards">
+              allCards
             </NavLink>
           </li>
         </Fragment>
