@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import recoverPasswordSchema from "../../validation/recoverPassword.validation";
 import Joi from "joi-browser";
 import axios from "axios";
@@ -27,7 +28,19 @@ const ForgetPasswordPage = () => {
     );
     const { error } = validatedVlue;
     if (error) {
-      console.log("invalidddddddd", { error });
+      console.log("invalidddddddd", error.details, { error });
+      for (let i = 0; i < error.details.length; i++) {
+        console.log("i", i);
+        toast.error(error.details[i].message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     } else {
       if (password === confirmPassword) {
         axios
@@ -36,14 +49,32 @@ const ForgetPasswordPage = () => {
           })
           .then((data) => {
             console.log("success", data);
+            toast.success("🦄 Password updated successfully!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
 
-            //todo
-            //redirect to login
+            history.push("/LoginPage");
           })
           .catch((err) => {
             console.log(err);
-            //todo
-            //displey error
+            for (let i = 0; i < err.length; i++) {
+              toast.error(error.details[i].message, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+              });
+            }
           });
       }
     }

@@ -9,7 +9,10 @@ import cardSchema from "../../validation/CreateCard.Validation";
 const CreateCardComponent = () => {
   const [price, setPrice] = useState("");
   const [description, setDdescription] = useState("");
+  const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [img, setImg] = useState("");
+  const [extraInfo, setExtaraInfo] = useState("");
 
   const userData = useSelector((state) => state.auth.userData);
   const isAdmin = useSelector((state) => state.auth.admin);
@@ -20,14 +23,23 @@ const CreateCardComponent = () => {
   const handleDescriptionChange = (ev) => {
     setDdescription(ev.target.value);
   };
+  const handleCityChange = (ev) => {
+    setCity(ev.target.value);
+  };
   const handleAddressChange = (ev) => {
     setAddress(ev.target.value);
+  };
+  const handleImgChange = (ev) => {
+    setImg(ev.target.value);
+  };
+  const handleExtraInfoChange = (ev) => {
+    setExtaraInfo(ev.target.value);
   };
   const handelSubmit = (ev) => {
     ev.preventDefault();
 
     const validateValue = Joi.validate(
-      { price, description, address },
+      { price, description, city, address, extraInfo },
       cardSchema,
       { abortEarly: false }
     );
@@ -37,7 +49,10 @@ const CreateCardComponent = () => {
     let dataToSend = {
       price,
       description,
+      city,
       address,
+      img,
+      extraInfo,
     };
 
     if (error) {
@@ -114,6 +129,19 @@ const CreateCardComponent = () => {
       </div>
       <div>{description}</div>
       <div className="mb-3">
+        <label htmlFor="cityInput" className="form-label">
+          city:
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="cityInput"
+          value={city}
+          onChange={handleCityChange}
+        />
+      </div>
+
+      <div className="mb-3">
         <label htmlFor="addressInput" className="form-label">
           address:
         </label>
@@ -125,7 +153,31 @@ const CreateCardComponent = () => {
           onChange={handleAddressChange}
         />
       </div>
-      <div>{address}</div>
+      <div className="mb-3">
+        <label htmlFor="extraInfoInput" className="form-label">
+          extraInfo:
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="extraInfoInput"
+          value={extraInfo}
+          onChange={handleExtraInfoChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="imgInput" className="form-label">
+          img - optional (url):
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="addressInput"
+          value={img}
+          onChange={handleImgChange}
+        />
+      </div>
+      <div>{img}</div>
       <button type="submit" className="btn btn-primary">
         Submit
       </button>

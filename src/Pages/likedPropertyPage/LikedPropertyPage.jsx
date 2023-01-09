@@ -111,13 +111,13 @@ const LikedPropertyPage = () => {
 
   return (
     <div>
+      <h1>LikedPropertyPage</h1>
       {cardsArr.length === 0 && (
         <h1 className="noCardMsg">
           your cards will show up here after you create them
         </h1>
       )}
       {renderRowsFromArr(cardsArr)}
-      <h1>LikedPropertyPage</h1>
     </div>
   );
 };

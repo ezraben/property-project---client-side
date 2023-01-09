@@ -8,10 +8,17 @@ import { faCircleCheck, faBan } from "@fortawesome/free-solid-svg-icons";
 const LikedPropertyComponent = (props) => {
   const [id, setId] = useState(props._id);
   const userData = useSelector((state) => state.auth.userData);
-  const [email] = useState(userData.email);
+  const [email, setEmail] = useState(userData.email);
+  // const [email] = useState(userData.email);
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
+  };
+  const handelIdChange = (ev) => {
+    setId(props._id);
+  };
+  const handelEmailChange = (ev) => {
+    setEmail(userData.email);
   };
 
   const hendeleConfirmClick = (ev) => {
@@ -98,6 +105,7 @@ const LikedPropertyComponent = (props) => {
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               value={email}
+              onChange={handelEmailChange}
             />
             <label htmlFor="exampleInputId" className="form-label">
               Id
@@ -108,6 +116,7 @@ const LikedPropertyComponent = (props) => {
               id="exampleInputid1"
               aria-describedby="idHelp"
               value={id}
+              onChange={handelIdChange}
             />
             <button
               type="submit"

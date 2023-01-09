@@ -1,0 +1,6 @@
+.card-pointer {
+}
+.card-pointer:hover {
+  cursor: pointer;
+  /* border: 2px solid; */
+}

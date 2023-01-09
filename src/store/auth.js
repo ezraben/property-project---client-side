@@ -5,6 +5,7 @@ const initalAuthState = {
   loggedIn: false,
   admin: false,
   userData: {},
+  // isAllCardPage: false,
 };
 
 const authSlice = createSlice({
@@ -19,9 +20,16 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.admin = false;
       state.userData = {};
+      // state.isAllCardPage = false;
     },
     isAdmin(state) {
       state.admin = true;
+    },
+    isAllCardPage(state) {
+      state.allCardPage = true;
+    },
+    notAllCardPage(state) {
+      state.allCardPage = false;
     },
     updateUserData(state, action) {
       state.userData = action.payload;
@@ -29,6 +37,9 @@ const authSlice = createSlice({
     upDateIsAdmin(state, action) {
       state.admin = action.payload;
     },
+    // upDateIsAllCardPage(state, action) {
+    //   state.allCardPage = action.payload;
+    // },
   },
 });
 

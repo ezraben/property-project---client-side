@@ -20,6 +20,7 @@ import LikedPropertyComponent from "./Components/likedPropertyComponent/LikedPro
 import LogOutPage from "./Pages/logOutPage/LogOutPage.page";
 import LikedPropertyPage from "./Pages/likedPropertyPage/LikedPropertyPage";
 import AllCardPage from "./Pages/allCardsPage/AllCards.page";
+import SpecificPropertyPage from "./Pages/specificPropertyPage/SpesificProperty.page";
 
 function App() {
   return (
@@ -69,6 +70,9 @@ function App() {
         </Route>
         <Route path="/allCards">
           <AllCardPage />
+        </Route>
+        <Route path="/SpecificPropertyPage">
+          <SpecificPropertyPage />
         </Route>
         <Route path="*">
           <PageNotFound />
