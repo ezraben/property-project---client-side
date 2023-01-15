@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "../../Components/CardComponent/Card.component";
@@ -9,6 +10,9 @@ import EditPopUPComponent from "../../Components/editPropertyPopup/EditeProperty
 import { log } from "joi-browser";
 import LikedPropertyComponent from "../../Components/likedPropertyComponent/LikedProperty.component";
 
+import cradComponentCss from "../../Components/CardComponent/cardComponentCss.css";
+// import dashbordCss from "./dashbordCss.css";
+
 const DashbordPage = () => {
   const [cardsArr, setCardsArr] = useState([]);
   const [dataToEdit, setDataToEdit] = useState(null);
@@ -17,6 +21,7 @@ const DashbordPage = () => {
   const [showLikedPropertyPopUp, setShowLikedPropertyPopUp] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
   const [_id, set_id] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     getAllCards();
@@ -26,7 +31,7 @@ const DashbordPage = () => {
   const handleDeleteCard = (id) => {
     axios
       .delete(`/properties/${id}`)
-      // .delete(`/properties/:id?${id}`)
+
       .then((res) => {
         let newCardsArr = cloneDeep(cardsArr);
         newCardsArr = newCardsArr.filter((item) => item._id !== id);
@@ -55,9 +60,6 @@ const DashbordPage = () => {
       });
   };
 
-  ///////////////////////////////////////////
-  ////////////////////////////////////
-  // up from here delete
   const handleShowPopUP = (id) => {
     setShowEditPopUp(true);
     let ktemp = cloneDeep(cardsArr.find((item) => item._id === id));
@@ -74,11 +76,15 @@ const DashbordPage = () => {
     _id,
     price,
     description,
+    city,
     address,
+    extraInfo,
     upDatedProperty
   ) => {
     axios
-      .put(`/properties/${_id}/${price}/${description}/${address}`)
+      .put(
+        `/properties/${_id}/${price}/${description}/${city}/${address}/${extraInfo}`
+      )
       // .put(`/ /${_id}/${price}/${description}/${address}`)
       .then((res) => {
         let newArrOfCards = cloneDeep(cardsArr);
@@ -107,10 +113,8 @@ const DashbordPage = () => {
         toast("error");
       });
   };
-  ///////////////////////
-  //////////////////////
+
   const handleShowLikedPopUP = (id) => {
-    // if(){}
     setShowLikedPropertyPopUp(true);
     let ktemp = cloneDeep(cardsArr.find((item) => item._id === id));
     setLikedPropertyId(ktemp);
@@ -119,43 +123,28 @@ const DashbordPage = () => {
       cardsArr.find((item) => item._id === id),
       userData.email
     );
-
-    // console.log("likedPropertyId._id", likedPropertyId._id);
-    // setDataToEdit(ktemp);
-    // console.log("ktemp", ktemp);
-    // setDataToEdit(cardsArr.find((item) => item._id === id));
-    // console.log("dataToEdit", dataToEdit);
   };
   const handleCanceleLike = () => {
     setShowLikedPropertyPopUp(false);
   };
-  // const handleCancele = () => {
-  //   setShowLikedPropertyPopUp(false);
-  // };
-  /////////////////////////////////////
-  //////////////////////////////////////
-  //////////////////////////////
+
   const handleLikeCard = (_id) => {
     axios
       .get(`properties/likedProperties/${_id.id}`)
 
-      // .get(`properties/likedProperties/${ _id }`)
-
       .then((res) => {
         console.log("_id, and email from dashbord", _id);
+        toast.success("🦄 woop woop you just licked this property", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
 
-        // let newArrOfCards = cloneDeep(cardsArr);
-
-        // let cardItemIndx = newArrOfCards.findIndex((item) => item._id === _id);
-        // console.log("kkkkkkkkkkkkkkkkkkk");
         console.log("likedPropertyId", likedPropertyId);
-        // if (cardItemIndx !== -1) {
-        // newArrOfCards[cardItemIndx] = { ...cloneDeep(upDatedProperty), _id };
-
-        // setCardsArr(newArrOfCards);
-
-        //////////////////////////////////////////
-        // from here trying to add axios to licked property
 
         axios
           .post(
@@ -164,31 +153,12 @@ const DashbordPage = () => {
           .then(({ data }) => {
             console.log("dataaaa", data, "idddddd0", _id);
           })
-          // .then((req, res) => {
-          //   // req.data = _id;
-          //   req = _id;
-          //   console.log("req", req);
-          //   console.log("hhhhhhhhhhhhhhhh");
 
-          // console.log("iddddddddddd", _id.id);
-          // console.log("emailllllllll", _id.email);
-          // })
           .catch((err) => {
             console.log(" err from axios", err);
           });
-        //////////////////////////////////////////
-        // until here trying to add axios to licked property
-        // toast.success("🦄 Card updated successfully!", {
-        //   position: "top-right",
-        //   autoClose: 5000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        //   progress: undefined,
-        // });
+
         setShowLikedPropertyPopUp(false);
-        // }
 
         setLikedPropertyId(null);
       })
@@ -200,8 +170,12 @@ const DashbordPage = () => {
   };
 
   const getAllCards = () => {
+    console.log("userData", userData.email);
+    if (!userData.email) {
+    }
     axios
-      .get("/properties")
+      .get(`/properties?userEmail=${userData.email}`)
+
       .then((res) => {
         setCardsArr(res.data);
       })
@@ -217,14 +191,22 @@ const DashbordPage = () => {
           progress: undefined,
         });
       });
+    // }
+  };
+  const getCardId = (id) => {
+    let card = cardsArr.find((item) => item._id === id);
+    console.log("card id");
+    // setPrice(card.price);
+
+    let cardId = card._id;
+
+    set_id(cardId);
+    if (id) {
+      history.push("/SpecificPropertyPage", { id: id });
+    }
   };
 
   const renderRowsFromArr = (arrOfItems) => {
-    /*
-        renderRowsFromArr will recive array of property cards
-        and will create html elms to display the  property cards
-        in the page
-    */
     let newArr = [];
     let inArr = [];
     let l = arrOfItems.length;
@@ -248,6 +230,7 @@ const DashbordPage = () => {
             onDelete={handleDeleteCard}
             onEdit={handleShowPopUP}
             onLike={handleShowLikedPopUP}
+            onSeeProperty={getCardId}
           />
         </div>,
       ];
@@ -288,14 +271,6 @@ const DashbordPage = () => {
           // {...dataToEdit}
         />
       )}
-
-      {/* {showTheEditPopUp && (
-          <EditCardComponent
-            onCancel={handeleCancelEdite}
-            onEditDone={handleEditCard}
-            {...dataToEdit}
-          />
-        )} */}
     </div>
   );
 };

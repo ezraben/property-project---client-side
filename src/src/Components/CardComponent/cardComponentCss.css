@@ -1,0 +1,15 @@
+.card-pointer {
+}
+.card-pointer:hover {
+  cursor: pointer;
+  /* border: 2px solid; */
+}
+.cardHeader {
+  color: red;
+}
+.btnCard {
+}
+
+.form-check-input:hover {
+  font-size: 2rem;
+}

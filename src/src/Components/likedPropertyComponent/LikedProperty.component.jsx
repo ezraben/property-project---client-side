@@ -8,10 +8,17 @@ import { faCircleCheck, faBan } from "@fortawesome/free-solid-svg-icons";
 const LikedPropertyComponent = (props) => {
   const [id, setId] = useState(props._id);
   const userData = useSelector((state) => state.auth.userData);
-  const [email] = useState(userData.email);
+  const [email, setEmail] = useState(userData.email);
+  // const [email] = useState(userData.email);
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
+  };
+  const handelIdChange = (ev) => {
+    setId(props._id);
+  };
+  const handelEmailChange = (ev) => {
+    setEmail(userData.email);
   };
 
   const hendeleConfirmClick = (ev) => {
@@ -85,49 +92,58 @@ const LikedPropertyComponent = (props) => {
         <div className="mb-3">
           <h3>to add this property to liked properties?</h3>
         </div>
+        {/* <div className="row"> */}
+        <div className="container ">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            value={email}
+            onChange={handelEmailChange}
+          />
 
-        <div className="row">
-          <div className="col">
-            {" "}
-            <label htmlFor="exampleInputEmail1" className="form-label">
-              Email address
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              value={email}
-            />
-            <label htmlFor="exampleInputId" className="form-label">
-              Id
-            </label>
-            <input
-              type="id"
-              className="form-control"
-              id="exampleInputid1"
-              aria-describedby="idHelp"
-              value={id}
-            />
-            <button
-              type="submit"
-              className="btn btn-success w-100"
-              onClick={hendeleConfirmClick}
-            >
-              <FontAwesomeIcon icon={faCircleCheck} />
-            </button>
-          </div>
-          <div className="col">
-            {" "}
-            <button
-              type="submit"
-              className="btn btn-danger w-100"
-              onClick={handleCanceleLike}
-            >
-              <FontAwesomeIcon icon={faBan} />
-            </button>
+          <label htmlFor="exampleInputId" className="form-label">
+            Id
+          </label>
+          <input
+            type="id"
+            className="form-control mb-5"
+            id="exampleInputid1"
+            aria-describedby="idHelp"
+            value={id}
+            onChange={handelIdChange}
+          />
+
+          <div className="container d-flex justify-content-around">
+            {/* <div className="d-flex justify-content-between"> */}
+            <div>
+              <button
+                type="submit"
+                className="btn btn-success w-100"
+                onClick={hendeleConfirmClick}
+              >
+                confirm {""}
+                <FontAwesomeIcon icon={faCircleCheck} />
+              </button>
+            </div>
+            {/* <div className="col"> */}{" "}
+            <div>
+              <button
+                type="submit"
+                className="btn btn-danger w-100"
+                onClick={handleCanceleLike}
+              >
+                cancel {""}
+                <FontAwesomeIcon icon={faBan} />
+              </button>
+            </div>
           </div>
         </div>
+        {/* </div> */}
       </form>
     </div>
   );

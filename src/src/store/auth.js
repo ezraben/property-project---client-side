@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initalAuthState = {
   loggedIn: false,
+  admin: false,
   userData: {},
+  // isAllCardPage: false,
 };
 
 const authSlice = createSlice({
@@ -16,11 +18,28 @@ const authSlice = createSlice({
     },
     loggedOut(state) {
       state.loggedIn = false;
+      state.admin = false;
       state.userData = {};
+      // state.isAllCardPage = false;
+    },
+    isAdmin(state) {
+      state.admin = true;
+    },
+    isAllCardPage(state) {
+      state.allCardPage = true;
+    },
+    notAllCardPage(state) {
+      state.allCardPage = false;
     },
     updateUserData(state, action) {
       state.userData = action.payload;
     },
+    upDateIsAdmin(state, action) {
+      state.admin = action.payload;
+    },
+    // upDateIsAllCardPage(state, action) {
+    //   state.allCardPage = action.payload;
+    // },
   },
 });
 
