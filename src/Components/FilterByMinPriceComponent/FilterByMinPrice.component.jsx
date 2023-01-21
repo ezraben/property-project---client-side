@@ -1,4 +1,4 @@
-import SearchBarComponent from "../SearchBarComponent/SearchBar.component";
+// import SearchBarComponent from "../SearchBarComponent/SearchBar.component";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -11,27 +11,19 @@ const FilterdPropertyByMinPrice = () => {
   const handelePriceChange = (ev) => {
     setPrice(ev.target.value);
   };
-  useEffect(() => {
-    // getAllCards();
-    console.log("use effect");
-  }, []);
+
+  useEffect(() => {}, []);
   const getFilterdCrads = () => {
     axios
       .post("/properties/filterByMinPrice", { price })
       .then((res) => {
         setCardsArr(res.data);
-        console.log(cardsArr);
       })
       .catch((err) => {
         console.log("err from axios", err);
       });
   };
   const renderRowsFromArr = (arrOfItems) => {
-    /*
-        renderRowsFromArr will recive array of property cards
-        and will create html elms to display the  property cards
-        in the page
-    */
     let newArr = [];
     let inArr = [];
     let l = arrOfItems.length;
@@ -52,8 +44,6 @@ const FilterdPropertyByMinPrice = () => {
           <CardComponent
             key={arrOfItems[i]._id + "_child"}
             {...arrOfItems[i]}
-            // onDelete={handleDeleteCard}
-            // onEdit={showEditPopUp}
           />
         </div>,
       ];
@@ -71,8 +61,7 @@ const FilterdPropertyByMinPrice = () => {
 
   return (
     <div>
-      {/* <form onSubmit={handelSubmit}> */}
-      <h1>Filter Propety buy min price</h1>
+      <h1>Filter Property buy min price</h1>
       <input
         className="form-control mr-sm-2"
         type="search"
@@ -81,7 +70,7 @@ const FilterdPropertyByMinPrice = () => {
         onChange={handelePriceChange}
         value={price}
       />
-      {/* <h1>{test}</h1> */}
+
       <button
         className="btn btn-outline-success my-2 my-sm-0"
         type="submit"
@@ -89,18 +78,13 @@ const FilterdPropertyByMinPrice = () => {
       >
         Search
       </button>
-      {/* </form> */}
+
       {renderRowsFromArr(cardsArr)}
       {cardsArr.length === 0 && (
         <h1 className="noCardMsg">
           your cards will show up here after you create them..
         </h1>
       )}
-      {/* {cardsArr.length > 0 &&  (
-        <h1 className="noCardMsg">
-          your cards will show up here after you create them
-        </h1>
-      )} */}
     </div>
   );
 };

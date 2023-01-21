@@ -4,13 +4,15 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "../../Components/CardComponent/Card.component";
 import { cloneDeep } from "lodash";
-import { object } from "joi";
+// import { object } from "joi";
+import { useHistory } from "react-router-dom";
 
 const LikedPropertyPage = () => {
   const userData = useSelector((state) => state.auth.userData);
   const userTest = useSelector((state) => state.auth.userData);
   const [cardsArr, setCardsArr] = useState([]);
-  const [_id, setIdes] = useState({});
+  const [_id, set_id] = useState({});
+  const history = useHistory();
   useEffect(() => {
     handleLickedCards();
 
@@ -20,20 +22,14 @@ const LikedPropertyPage = () => {
   const arrTest = [];
 
   const handleLickedCards = () => {
-    console.log("hhhh");
     axios
       .get(`/properties/lickedPropertiesByUser?email=${userData.email}`)
       .then((data) => {
         if (data.data.length > 0) {
           console.log("data.data", data.data);
           const idesToSet = data.data.map((id) => id);
-          console.log("idesToSet", idesToSet);
 
           setCardsArr(idesToSet);
-
-          console.log("cardsdaArr", cardsArr);
-
-          console.log("can you idd", _id);
         }
       })
       .catch((err) => {
@@ -66,9 +62,21 @@ const LikedPropertyPage = () => {
         console.log("err", err);
       });
   };
-  const hendleSeeProperty = (ev) => {
-    console.log("hendleSeeProperty");
+  const getCardId = (id) => {
+    let card = cardsArr.find((item) => item._id === id);
+    console.log("card id");
+    // setPrice(card.price);
+
+    let cardId = card._id;
+
+    set_id(cardId);
+    if (id) {
+      history.push("/SpecificPropertyPage", { id: id });
+    }
   };
+  // const hendleSeeProperty = (ev) => {
+  //   console.log("hendleSeeProperty");
+  // };
 
   const renderRowsFromArr = (arrOfItems) => {
     let newArr = [];
@@ -92,8 +100,8 @@ const LikedPropertyPage = () => {
             key={arrOfItems[i]._id + "_child"}
             {...arrOfItems[i]}
             onDelete={removeLIckedProperty}
-            onEdit={hendleSeeProperty}
-            // onLike={handleShowLikedPopUP}
+            onSeeProperty={getCardId}
+            // onSeeProperty={hendleSeeProperty}
           />
         </div>,
       ];
@@ -114,7 +122,7 @@ const LikedPropertyPage = () => {
       <h1>LikedPropertyPage</h1>
       {cardsArr.length === 0 && (
         <h1 className="noCardMsg">
-          your cards will show up here after you create them
+          your liked cards will show up here after you liked them
         </h1>
       )}
       {renderRowsFromArr(cardsArr)}

@@ -10,7 +10,7 @@ const recoverPasswordSchema = {
         "^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*() ]).{6,12}$"
       )
     ),
-  // password: Joi.string().min(6).max(1024).required(),
+
   confirmPassword: Joi.string()
     .min(6)
     .max(1024)

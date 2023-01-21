@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 
 import cardSchema from "../../validation/CreateCard.Validation";
+import { useHistory } from "react-router-dom";
 
 const CreateCardComponent = () => {
   const [price, setPrice] = useState("");
@@ -16,6 +17,8 @@ const CreateCardComponent = () => {
 
   const userData = useSelector((state) => state.auth.userData);
   const isAdmin = useSelector((state) => state.auth.admin);
+
+  const history = useHistory();
 
   const handlePriceChange = (ev) => {
     setPrice(ev.target.value);
@@ -86,6 +89,7 @@ const CreateCardComponent = () => {
             progress: undefined,
             theme: "light",
           });
+          history.push("/DashbordPage");
         })
         .catch((err) => {
           console.log("err from axios", err);
@@ -101,87 +105,94 @@ const CreateCardComponent = () => {
   }
 
   return (
-    <form onSubmit={handelSubmit}>
-      <div className="mb-3">
-        <label htmlFor="priceInput" className="form-label">
-          Price:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="priceInput"
-          value={price}
-          onChange={handlePriceChange}
-        />
-        <div>{price}</div>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="descriptionInput" className="form-label">
-          description:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="descriptionInput"
-          value={description}
-          onChange={handleDescriptionChange}
-        />
-      </div>
-      <div>{description}</div>
-      <div className="mb-3">
-        <label htmlFor="cityInput" className="form-label">
-          city:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="cityInput"
-          value={city}
-          onChange={handleCityChange}
-        />
-      </div>
+    <div className="container  d-flex justify-content-center">
+      <form onSubmit={handelSubmit}>
+        <div className="mb-3">
+          <label htmlFor="priceInput" className="form-label">
+            Price:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="priceInput"
+            value={price}
+            onChange={handlePriceChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="descriptionInput" className="form-label">
+            description:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="descriptionInput"
+            value={description}
+            onChange={handleDescriptionChange}
+          />
+        </div>
 
-      <div className="mb-3">
-        <label htmlFor="addressInput" className="form-label">
-          address:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="addressInput"
-          value={address}
-          onChange={handleAddressChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="extraInfoInput" className="form-label">
-          extraInfo:
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="extraInfoInput"
-          value={extraInfo}
-          onChange={handleExtraInfoChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="imgInput" className="form-label">
-          img - optional (url):
-        </label>
-        <input
-          type="text"
-          className="form-control"
-          id="addressInput"
-          value={img}
-          onChange={handleImgChange}
-        />
-      </div>
-      <div>{img}</div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-    </form>
+        <div className="mb-3">
+          <label htmlFor="cityInput" className="form-label">
+            city:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="cityInput"
+            value={city}
+            onChange={handleCityChange}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="addressInput" className="form-label">
+            address:
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="addressInput"
+            value={address}
+            onChange={handleAddressChange}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="extraInfoInput" className="form-label">
+            extraInfo:
+          </label>
+          <textarea
+            name=""
+            cols="30"
+            rows="3"
+            type="text"
+            className="form-control"
+            id="extraInfoInput"
+            value={extraInfo}
+            onChange={handleExtraInfoChange}
+          ></textarea>
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="imgInput" className="form-label">
+            img - optional (url):
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="addressInput"
+            value={img}
+            onChange={handleImgChange}
+          />
+        </div>
+        <div className="text-center ">
+          <button className="btn btn-primary " type="submit">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

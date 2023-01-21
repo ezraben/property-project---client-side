@@ -3,9 +3,10 @@ import axios from "axios";
 import Joi from "joi-browser";
 import jwt_decode from "jwt-decode";
 import { toast } from "react-toastify";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import signUpSchema from "../../validation/signUp.validation";
+import signupCss from "./signupCss.css";
 
 ////////////////////////////////////
 //from here singup that works --- send secuusee messge also if amail exsist- but dos not create in data base in that case --- also befor multer
@@ -126,12 +127,34 @@ const SignupComponent = () => {
           // }
         )
         .then(({ data }) => {
+          // if (data.status === "Failed") {
+          //   toast.error(data.msg, {
+          //     position: "top-right",
+          //     autoClose: 5000,
+          //     hideProgressBar: false,
+          //     closeOnClick: true,
+          //     pauseOnHover: true,
+          //     draggable: true,
+          //     progress: undefined,
+          //   });
+          //   throw error;
+          // }
           console.log("data", data);
           console.log("formdata", formData);
 
           localStorage.setItem("token", data.msg);
 
           if (data.status === "Success") {
+            toast.success("🦄 Welcome! " + firstName, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
             history.push("/LoginPage", { email: email, password: password });
           }
         })
@@ -142,8 +165,9 @@ const SignupComponent = () => {
   };
 
   return (
-    <div>
+    <div className="container d-flex justify-content-center">
       <form onSubmit={handelSubmit} encType="multipart/form-data">
+        <h1>Create an account </h1>
         {/* <input
           type="img"
           htmlFor="img"
@@ -162,7 +186,11 @@ const SignupComponent = () => {
             value={firstName}
           />
         </div>
-        <div>{firstName}</div>
+        {firstName.length > 0 && firstName.length <= 1 && (
+          <div className="alert alert-warning">
+            First name must be at least 2 characters
+          </div>
+        )}
         <div className="mb-3">
           <label htmlFor="last Name" className="form-label" />
           last Name
@@ -173,7 +201,11 @@ const SignupComponent = () => {
             value={lastName}
           />
         </div>
-        <div>{lastName}</div>
+        {lastName.length > 0 && lastName.length <= 1 && (
+          <div className="alert alert-warning">
+            Last name must be at least 2 characters
+          </div>
+        )}
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">
             Email address
@@ -187,7 +219,11 @@ const SignupComponent = () => {
             value={email}
           />
         </div>
-        <div>{email}</div>
+        {email.length > 0 && email.length <= 4 && (
+          <div className="alert alert-warning">
+            email must be an valid stracture <br /> such as 'email@gmail.com'
+          </div>
+        )}
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
             Password
@@ -198,13 +234,15 @@ const SignupComponent = () => {
             onChange={handlePasswordChange}
             value={password}
           />
-          <div>{password}</div>
+          {password.length > 0 && password.length <= 8 && (
+            <div className="alert alert-warning">
+              Password must be at least 8 characters <br /> use at least one
+              upper case letter <br /> and one lower case, use at least one
+              number <br />
+              and at least on spacial eg, !#$&*
+            </div>
+          )}
         </div>{" "}
-        {password.length > 0 && password.length < 8 && (
-          <div className="alert alert-warning">
-            password must be at least 8 characters
-          </div>
-        )}
         <div className="mb-3">
           <label htmlFor="ConfirmPassword" className="form-label">
             Confirm Password
@@ -216,17 +254,23 @@ const SignupComponent = () => {
             value={confirmPassword}
           />
         </div>
-        <div>{confirmPassword}</div>
+        {/* <div>{confirmPassword}</div> */}
         {confirmPassword.length > 3 && confirmPassword !== password && (
           <div className="alert alert-warning">
             password and confirm password must match
           </div>
         )}
         <label htmlFor="img">img</label>
-        <input type="file" name="img" id="img" onChange={handelImgChange} />
+        <input
+          className="m-2"
+          type="file"
+          name="img"
+          id="img"
+          onChange={handelImgChange}
+        />
         <div className="mb-3">
           <label htmlFor="phone" className="form-label">
-            Phone Number (optional)
+            Phone Number:
           </label>
           <input
             type="phone"
@@ -234,8 +278,12 @@ const SignupComponent = () => {
             onChange={handlePhoneChange}
             value={phone}
           />
-          <div>{phone}</div>
         </div>{" "}
+        {phone.length > 0 && phone.length <= 2 && (
+          <div className="alert alert-warning">
+            Phone number must ne at lest 3 characters
+          </div>
+        )}
         <div>
           <input
             type="checkbox"
@@ -244,12 +292,13 @@ const SignupComponent = () => {
             onChange={handelCheckButton}
             checked={isAdmin}
           />
-          <label className="form-check-label" htmlFor="exampleCheck1">
+          <label className="form-check-label " htmlFor="exampleCheck1">
             Check this box if you want to create a business account
           </label>
         </div>
-        <div className="text-center ">
+        <div className="text-center p-5 ">
           <button
+            className="btn btn-success  "
             type="submit"
             // className={`btn btn-primary ${
             //   props.showBizCheckBox ? "d-none" : ""
@@ -261,6 +310,11 @@ const SignupComponent = () => {
         {/* {props.showBizCheckBox && biz === true && (
           <button className="btn btn-primary"> submit</button>
         )} */}
+        <div className="container d-flex">
+          <h5>
+            already have an account? <Link to={"/LoginPage"}>login</Link>
+          </h5>
+        </div>
       </form>
     </div>
   );

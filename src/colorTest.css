@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(76, 92, 116);
+  background-color: rgb(76, 92, 116) - rgb(44, 76, 92)- rgb(76, 100, 116) rgb(
+      59,
+      83,
+      100
+    ) rgb(124, 140, 156) rgb(105, 123, 136) rgb(132, 148, 158) rgb(
+      199,
+      206,
+      212
+    ) rgb(20, 44, 68);
+}
+
+/* MONGO_CONNECTION_STRING="mongodb://localhost:27017/finalProjectDB"
+PORT=3001
+JWT_KEY="secret key that should be hidden"
+EMAIL_EMAIL=shlomobikesh3@gmail.com
+EMAIL_PASSWORD=Aa123456!
+CLINET_ID="596127893787-oecb6ue2onr4aghsfmb8g8egako16co1.apps.googleusercontent.com"
+CLIENT_SECRET="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"
+REFRESH_TOKEN="1//04Z_CXlIrMks-CgYIARAAGAQSNwF-L9Ire5hyCfWqQuz3cyNwsQgUIhRFLbAKNXfS7lt3kIPSd_s0tMCML7wzx31Zpsg8EGM_Opw"
+CRYPTO_ALGORITHM="aes-256-ctr"
+CRYPTO_SECRET="1234567812345a7812fF456781234678" */

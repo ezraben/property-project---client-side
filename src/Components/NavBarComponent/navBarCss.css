@@ -1,0 +1,29 @@
+.navbar {
+  margin-bottom: 10vh;
+}
+.logo {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.loggedIn {
+  /* background-color: ; */
+  background-color: rgb(199, 206, 212);
+}
+.notLoggedIn {
+  background-color: red;
+}
+
+ul > li {
+  padding-left: 3vw;
+  padding-right: 3vw;
+}
+
+@media screen and (max-width: 1200px) {
+  ul > li {
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+  }
+}

@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
-import CardComponent from "../../Components/CardComponent/Card.component";
+// import CardComponent from "../../Components/CardComponent/Card.component";
+import SpecificCardCss from "./specificPropertyCss.css";
 const SpecificPropertyPage = () => {
   const [id, setId] = useState("");
   const [price, setPrice] = useState("");
@@ -36,8 +37,9 @@ const SpecificPropertyPage = () => {
   }, [id]);
 
   return (
-    <div className="card">
-      <img className="card-img-top" src={img} alt={description} />
+    <div className="spesificCard ">
+      <img className="specificCardImg" src={img} alt={description} />
+
       <div className="card-body">
         <h5 className="card-title">price: {price}</h5>
         <p className="card-text">description: {description}</p>
@@ -46,20 +48,6 @@ const SpecificPropertyPage = () => {
       <h5 className="card-title">city: {city}</h5>
       <h5 className="card-title">address: {address}</h5>
       <h5 className="card-title">extra info: {extraInfo}</h5>
-      {/* <div className="card"> */}
-      {/* <img className="card-img-top" src={img} alt={description} /> */}
-      {/* <div className="card-body"> */}
-      {/* <h5 className="card-title">price: {price}</h5> */}
-      {/* <p className="card-text">{description}</p> */}
-      {/* <CardComponent
-        price={price}
-        description={description}
-        address={address}
-        img={img}
-        extraInfo={extraInfo}
-      /> */}
-      {/* </div> */}
-      {/* <div className="card-body">extraInfo: {extraInfo}</div> */}
     </div>
   );
 };

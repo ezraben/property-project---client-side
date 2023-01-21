@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "../../Components/CardComponent/Card.component";
-import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.component";
+// import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.component";
 import { cloneDeep } from "lodash";
 import EditPopUPComponent from "../../Components/editPropertyPopup/EditePropertyPopUp.component";
 import { log } from "joi-browser";
@@ -76,11 +76,15 @@ const DashbordPage = () => {
     _id,
     price,
     description,
+    city,
     address,
+    extraInfo,
     upDatedProperty
   ) => {
     axios
-      .put(`/properties/${_id}/${price}/${description}/${address}`)
+      .put(
+        `/properties/${_id}/${price}/${description}/${city}/${address}/${extraInfo}`
+      )
       // .put(`/ /${_id}/${price}/${description}/${address}`)
       .then((res) => {
         let newArrOfCards = cloneDeep(cardsArr);

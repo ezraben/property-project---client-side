@@ -27,3 +27,8 @@
   background-color: white;
   border: 0.2rem solid black;
 }
+@media screen and (max-width: 600px) {
+  .center-form {
+    min-width: 75vw;
+  }
+}

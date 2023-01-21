@@ -1,11 +1,9 @@
-import { faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initalAuthState = {
   loggedIn: false,
   admin: false,
   userData: {},
-  // isAllCardPage: false,
 };
 
 const authSlice = createSlice({
@@ -20,7 +18,6 @@ const authSlice = createSlice({
       state.loggedIn = false;
       state.admin = false;
       state.userData = {};
-      // state.isAllCardPage = false;
     },
     isAdmin(state) {
       state.admin = true;
@@ -37,9 +34,6 @@ const authSlice = createSlice({
     upDateIsAdmin(state, action) {
       state.admin = action.payload;
     },
-    // upDateIsAllCardPage(state, action) {
-    //   state.allCardPage = action.payload;
-    // },
   },
 });
 

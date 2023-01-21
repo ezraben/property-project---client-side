@@ -8,6 +8,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store/auth";
 import jwt_decode from "jwt-decode";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,6 @@ const LoginPage = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // console.log("location", location);
     if (location.state && location.state.email && location.state.password) {
       setEmail(location.state.email);
       setPassword(location.state.password);
@@ -39,54 +39,33 @@ const LoginPage = () => {
     });
     const { error } = validatedVlue;
     if (error) {
-      console.log("invalidddddddd", { error });
+      console.log("invalid-error", { error });
     }
 
     if (email && password) {
       axios
         .post("/auth/login", { email, password })
-        // .post("/auth/login", { email, password })
 
         .then(({ data }) => {
           localStorage.setItem("token", data.msg);
-          console.log("data", data);
-          console.log("token", data.msg);
-          console.log("tolen decoded", jwt_decode(data.msg));
-          // console.log("isAdmin", data.msg2);
+
           dispatch(authActions.updateUserData(jwt_decode(data.msg)));
 
           if (data.status === "Success") {
             dispatch(authActions.login());
             if (data.msg2 === true) {
               dispatch(authActions.upDateIsAdmin(data.msg2));
-              console.log("data.msg2", data.msg2);
-              // console.log();
+
+              history.push("/DashbordPage");
             }
-            history.push("/DashbordPage");
+            if (data.msg2 === false) {
+              history.push("/allCards");
+            }
           }
         })
-        ///////////////////
-        ////////////////
-        //befro addind is admin
-        // .then(({ data }) => {
-        //   localStorage.setItem("token", data.msg);
-        //   console.log("data", data);
-        //   console.log("token", data.msg);
-        //   console.log("tolen decoded", jwt_decode(data.msg));
-        //   console.log("isAdmin", data.isAdmin);
-        //   dispatch(authActions.updateUserData(jwt_decode(data.msg)));
-
-        //   if (data.status === "Success") {
-        //     dispatch(authActions.login());
-        //     history.push("/DashbordPage");
-        //   }
-        // })
-        ///////////////////
-        ////////////////
-        //befro addind is admin
 
         .catch((err) => {
-          console.log("err from axiossssssssssss", err);
+          console.log("err from axios", err);
           toast.error("invalid email or password", {
             position: "top-right",
             autoClose: 5000,
@@ -100,38 +79,45 @@ const LoginPage = () => {
     }
   };
   return (
-    <form onSubmit={handelSubmit} className="topSpaceFromNav">
-      <h1 className="text-center mt-5">please login</h1>
-      <div className="mb-3">
-        <label htmlFor="exampleInputEmail1" className="form-label">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-          onChange={handelEmail}
-          value={email}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="exampleInputPassword1" className="form-label">
-          Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="exampleInputPassword1"
-          onChange={handelPassword}
-          value={password}
-        />
-      </div>
+    <div className="container d-flex justify-content-center">
+      <form onSubmit={handelSubmit} className="topSpaceFromNav form-group">
+        <h1 className="text-center mt-5">Please Login</h1>
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail1" className="form-label">
+            Email address
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="email@gmail.com"
+            onChange={handelEmail}
+            value={email}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="exampleInputPassword1" className="form-label">
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="exampleInputPassword1"
+            placeholder="password"
+            onChange={handelPassword}
+            value={password}
+          />
+        </div>
 
-      <div className="text-center">
-        <button className="btn btn-primary text-center m-5">Login</button>
-      </div>
-    </form>
+        <div className="text-center">
+          <button className="btn btn-primary text-center m-5">Login</button>
+        </div>
+        <Link to={"/ResetPasswordComponent"}>
+          forgot your password click here
+        </Link>
+      </form>
+    </div>
   );
 };
 export default LoginPage;

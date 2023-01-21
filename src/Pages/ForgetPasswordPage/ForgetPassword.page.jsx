@@ -5,9 +5,11 @@ import recoverPasswordSchema from "../../validation/recoverPassword.validation";
 import Joi from "joi-browser";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+
 const ForgetPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   const { keyParam, iv, encryptedData } = useParams();
 
   const handlePasswordChange = (ev) => {
@@ -16,6 +18,7 @@ const ForgetPasswordPage = () => {
   const handlesetConfirmPasswordChange = (ev) => {
     setConfirmPassword(ev.target.value);
   };
+
   const history = useHistory();
   const handelSubmit = (ev) => {
     ev.preventDefault();
@@ -28,7 +31,7 @@ const ForgetPasswordPage = () => {
     );
     const { error } = validatedVlue;
     if (error) {
-      console.log("invalidddddddd", error.details, { error });
+      console.log("invalid", error.details, { error });
       for (let i = 0; i < error.details.length; i++) {
         console.log("i", i);
         toast.error(error.details[i].message, {
@@ -80,13 +83,13 @@ const ForgetPasswordPage = () => {
     }
   };
 
-  ///auth/forgetPassword
   return (
     <form onSubmit={handelSubmit}>
-      <div className="card-body px-5">
+      <h1>Please enter a new password and click the send button</h1>
+      <div className="card-body px-5 ">
         <div className="form-outline">
           <label className="form-label" htmlFor="password">
-            password
+            New password
           </label>
           <input
             type="password"
@@ -98,7 +101,7 @@ const ForgetPasswordPage = () => {
         </div>
         <div className="form-outline">
           <label className="form-label" htmlFor="typeEmail">
-            confirm password
+            Confirm new password
           </label>
           <input
             type="password"
@@ -113,9 +116,10 @@ const ForgetPasswordPage = () => {
             password and confirm password must match
           </div>
         )}
+        <div className="text-center">
+          <button className="btn btn-success  ">Send</button>
+        </div>
       </div>
-
-      <button className="btn btn-success">send</button>
     </form>
   );
 };
