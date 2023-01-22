@@ -5,10 +5,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { cloneDeep } from "lodash";
 import CardComponent from "../../Components/CardComponent/Card.component";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth";
 // import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.component";
 import LikedPropertyComponent from "../../Components/likedPropertyComponent/LikedProperty.component";
 import FilterdPropertyPage from "../filterdPropertyPage/FilterdProperty.page";
 import allCardsCss from "./allCardsCss.css";
+import { log } from "joi-browser";
 
 const AllCardPage = () => {
   const [cardsArr, setCardsArr] = useState([]);
@@ -38,15 +41,16 @@ const AllCardPage = () => {
   const handeleMaxPriceChange = (ev) => {
     setMaxPrice(ev.target.value);
   };
-  // const handleAllLikedCardsByUser = (arr) => {
-  //   setAllLickedPropertiesByUser(arr);
-  // };
 
   const [showLikedPropertyPopUp, setShowLikedPropertyPopUp] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
+  const testForCard = useSelector(
+    (state) => state.auth.upLikedPropertiesByUser
+  );
   const [id, set_id] = useState();
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getAllCards();
@@ -164,6 +168,8 @@ const AllCardPage = () => {
   };
   ////////////////////////////////////
 
+  ////////////////////////////////////////
+
   const handleLickedCards = () => {
     axios
       .get(`/properties/lickedPropertiesByUser?email=${userData.email}`)
@@ -176,15 +182,12 @@ const AllCardPage = () => {
           cloneDeep(newArrOfCards);
 
           setAllLickedPropertiesByUser([...newArrOfCards]);
-
-          // console.log("allLickedPropertiesByUser", allLickedPropertiesByUser);
         }
       })
       .catch((err) => {
         console.log("err from axios", err);
       });
   };
-  console.log("allLickedPropertiesByUser", allLickedPropertiesByUser);
 
   const getAllCards = () => {
     axios
@@ -206,6 +209,24 @@ const AllCardPage = () => {
         });
       });
   };
+
+  // console.log("allLickedPropertiesByUser", allLickedPropertiesByUser);
+  /////////////////////
+  //compinng licked cards  with all cards
+  const checkIfCardsIsLicked = () => {
+    cardsArr.filter(
+      (allLickedPropertiesByUser) => cardsArr._id === allLickedPropertiesByUser
+    );
+    // console.log("id froom filter", allLickedPropertiesByUser);
+    // console.log(
+    //   "allLickedPropertiesByUser from func",
+    //   allLickedPropertiesByUser
+    // );
+    // console.log("cardsArr from func", cardsArr);'
+    // return allLickedPropertiesByUser;
+  };
+  // console.log("checkIfCardsIsLicked()", checkIfCardsIsLicked());
+
   ///////////////////////////////
   //before adding licked cards to all cards
 
@@ -255,6 +276,7 @@ const AllCardPage = () => {
             {...arrOfItems[i]}
             onSeeProperty={getCardId}
             onLike={handleShowLikedPopUP}
+            isCardLicked={checkIfCardsIsLicked}
           />
         </div>,
       ];
