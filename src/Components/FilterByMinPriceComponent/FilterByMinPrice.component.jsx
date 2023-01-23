@@ -1,4 +1,3 @@
-// import SearchBarComponent from "../SearchBarComponent/SearchBar.component";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";

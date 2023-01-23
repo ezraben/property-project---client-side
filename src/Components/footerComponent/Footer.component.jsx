@@ -12,7 +12,7 @@ import {
 const FooterComponent = () => {
   return (
     <footer className="text-center text-lg-start  text-muted footer">
-      {/* <footer className="text-center text-lg-start bg-light text-muted footer"> */}
+      
       <section className="">
         <h6 className="text-uppercase fw-bold mb-4">Contact</h6>
         <p>
@@ -70,7 +70,7 @@ const FooterComponent = () => {
 
       <div
         className="text-center p-4"
-        // style="background-color: rgba(0, 0, 0, 0.05);"
+        
       >
         © 2023 Copyright: EBN
       </div>

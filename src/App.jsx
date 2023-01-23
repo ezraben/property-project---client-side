@@ -1,6 +1,5 @@
 import logo from "./logo.svg";
 import "./App.css";
-import mainCss from "./mainCss.css";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -25,6 +24,7 @@ import SpecificPropertyPage from "./Pages/specificPropertyPage/SpesificProperty.
 import FooterComponent from "./Components/footerComponent/Footer.component";
 import ResetPasswordComponent from "./Components/resetPassword/RestPassword.component";
 import { Fragment } from "react";
+import AboutPage from "./Pages/aboutPage/AboutPage";
 
 function App() {
   return (
@@ -39,6 +39,9 @@ function App() {
           </Route>
           <Route path="/SignupPage">
             <SignupPage />
+          </Route>
+          <Route path="/AboutPage">
+            <AboutPage />
           </Route>
           <Route path="/CreateCardComponent">
             <CreateCardComponent />

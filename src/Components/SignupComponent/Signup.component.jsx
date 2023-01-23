@@ -8,18 +8,13 @@ import { Link, useHistory } from "react-router-dom";
 import signUpSchema from "../../validation/signUp.validation";
 import signupCss from "./signupCss.css";
 
-////////////////////////////////////
-//from here singup that works --- send secuusee messge also if amail exsist- but dos not create in data base in that case --- also befor multer
-
 const SignupComponent = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  // const [img, setImg] = useState(null);
-  // const [name, setName] = useState();
-  const [img, setImg] = useState(null);
+
   const [phone, setPhone] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -38,38 +33,18 @@ const SignupComponent = () => {
   const handleConfirmPassword = (ev) => {
     setConfirmPassword(ev.target.value);
   };
-  const handelImgChange = (ev) => {
-    setImg(ev.target.files[0]);
-    console.log(ev);
-    // console.log(ev.target.files[0]);
-
-    // setImg(ev.target.files[0]);
-  };
 
   const handlePhoneChange = (ev) => {
     setPhone(ev.target.value);
   };
   const handelCheckButton = (ev) => {
     setIsAdmin(ev.target.checked);
-    console.log(ev.target.checked);
+    
   };
   const history = useHistory();
 
   const handelSubmit = (ev) => {
     ev.preventDefault();
-    // const fd = new FormData();
-    // fd.append("img", setImg(imgSelectedHandler.name));
-    const formData = new FormData();
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("confirmPassword", confirmPassword);
-    formData.append("img", img);
-    formData.append("phone", phone);
-    formData.append("isAdmin", isAdmin);
-    // formData.append("img", setImg(imgSelectedHandler.name));
-    console.log(formData);
 
     const validateValue = Joi.validate(
       {
@@ -78,8 +53,6 @@ const SignupComponent = () => {
         email,
         password,
         confirmPassword,
-        // img,
-        // img,
         phone,
         isAdmin,
       },
@@ -113,34 +86,31 @@ const SignupComponent = () => {
       axios
         .post(
           "/auth/signup",
-          formData
-          // {
-          //   firstName,
-          //   lastName,
-          //   email,
-          //   password,
-          //   confirmPassword,
-          //   img,
-          //   // img,
-          //   phone,
-          //   isAdmin,
-          // }
+
+          {
+            firstName,
+            lastName,
+            email,
+            password,
+            confirmPassword,
+            phone,
+            isAdmin,
+          }
         )
         .then(({ data }) => {
-          // if (data.status === "Failed") {
-          //   toast.error(data.msg, {
-          //     position: "top-right",
-          //     autoClose: 5000,
-          //     hideProgressBar: false,
-          //     closeOnClick: true,
-          //     pauseOnHover: true,
-          //     draggable: true,
-          //     progress: undefined,
-          //   });
-          //   throw error;
-          // }
-          console.log("data", data);
-          console.log("formdata", formData);
+          if (data.status === "Failed") {
+            toast.error(data.msg, {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+            throw error;
+          }
+          
 
           localStorage.setItem("token", data.msg);
 
@@ -168,13 +138,6 @@ const SignupComponent = () => {
     <div className="container d-flex justify-content-center">
       <form onSubmit={handelSubmit} encType="multipart/form-data">
         <h1>Create an account </h1>
-        {/* <input
-          type="img"
-          htmlFor="img"
-          name="img"
-          id="img"
-          onChange={imgSelectedHandler}
-        /> */}
         <div className="mb-3">
           <label htmlFor="Name" className="form-label">
             first Name
@@ -221,7 +184,7 @@ const SignupComponent = () => {
         </div>
         {email.length > 0 && email.length <= 4 && (
           <div className="alert alert-warning">
-            email must be an valid stracture <br /> such as 'email@gmail.com'
+            email must be an valid structure <br /> such as 'email@gmail.com'
           </div>
         )}
         <div className="mb-3">
@@ -254,20 +217,11 @@ const SignupComponent = () => {
             value={confirmPassword}
           />
         </div>
-        {/* <div>{confirmPassword}</div> */}
         {confirmPassword.length > 3 && confirmPassword !== password && (
           <div className="alert alert-warning">
             password and confirm password must match
           </div>
         )}
-        <label htmlFor="img">img</label>
-        <input
-          className="m-2"
-          type="file"
-          name="img"
-          id="img"
-          onChange={handelImgChange}
-        />
         <div className="mb-3">
           <label htmlFor="phone" className="form-label">
             Phone Number:
@@ -297,19 +251,10 @@ const SignupComponent = () => {
           </label>
         </div>
         <div className="text-center p-5 ">
-          <button
-            className="btn btn-success  "
-            type="submit"
-            // className={`btn btn-primary ${
-            //   props.showBizCheckBox ? "d-none" : ""
-            // }  `}
-          >
+          <button className="btn btn-success  " type="submit">
             Submit
           </button>
         </div>
-        {/* {props.showBizCheckBox && biz === true && (
-          <button className="btn btn-primary"> submit</button>
-        )} */}
         <div className="container d-flex">
           <h5>
             already have an account? <Link to={"/LoginPage"}>login</Link>
@@ -319,7 +264,5 @@ const SignupComponent = () => {
     </div>
   );
 };
-////////////////////////////////////
-//until  here singup that works --- send secuusee messge also if amail exsist- but dos not create in data base in that case --- also befor multer
 
 export default SignupComponent;

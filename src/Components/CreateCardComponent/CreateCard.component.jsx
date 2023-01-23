@@ -78,7 +78,6 @@ const CreateCardComponent = () => {
       axios
         .post(`/properties?userEmail=${userEmail}`, dataToSend)
         .then((data) => {
-          console.log(data);
           toast.success("🦄 Property card created successfully!", {
             position: "top-right",
             autoClose: 5000,

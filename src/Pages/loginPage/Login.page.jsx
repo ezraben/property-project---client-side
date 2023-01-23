@@ -95,6 +95,12 @@ const LoginPage = () => {
             onChange={handelEmail}
             value={email}
           />
+          {email.length > 0 && email.length <= 4 && (
+            <div className="alert alert-warning">
+              email must be an <br /> valid structure <br /> such as
+              'email@gmail.com'
+            </div>
+          )}
         </div>
         <div className="mb-3">
           <label htmlFor="exampleInputPassword1" className="form-label">
@@ -108,6 +114,11 @@ const LoginPage = () => {
             onChange={handelPassword}
             value={password}
           />
+          {password.length > 0 && password.length <= 8 && (
+            <div className="alert alert-warning">
+              Password must be <br /> at least 8 characters
+            </div>
+          )}
         </div>
 
         <div className="text-center">

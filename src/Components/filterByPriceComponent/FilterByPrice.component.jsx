@@ -1,4 +1,3 @@
-// import SearchBarComponent from "../SearchBarComponent/SearchBar.component";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
@@ -12,8 +11,7 @@ const FilterdPropertyByPrice = () => {
     setPrice(ev.target.value);
   };
   useEffect(() => {
-    // getAllCards();
-    console.log("use effect");
+   
   }, []);
   const getFilterdCrads = () => {
     axios
@@ -27,11 +25,6 @@ const FilterdPropertyByPrice = () => {
       });
   };
   const renderRowsFromArr = (arrOfItems) => {
-    /*
-        renderRowsFromArr will recive array of property cards
-        and will create html elms to display the  property cards
-        in the page
-    */
     let newArr = [];
     let inArr = [];
     let l = arrOfItems.length;
@@ -52,8 +45,6 @@ const FilterdPropertyByPrice = () => {
           <CardComponent
             key={arrOfItems[i]._id + "_child"}
             {...arrOfItems[i]}
-            // onDelete={handleDeleteCard}
-            // onEdit={showEditPopUp}
           />
         </div>,
       ];
@@ -71,7 +62,6 @@ const FilterdPropertyByPrice = () => {
 
   return (
     <div>
-      {/* <form onSubmit={handelSubmit}> */}
       <h1>Filter Propety buy max price</h1>
       <input
         className="form-control mr-sm-2"
@@ -81,7 +71,7 @@ const FilterdPropertyByPrice = () => {
         onChange={handelePriceChange}
         value={price}
       />
-      {/* <h1>{test}</h1> */}
+
       <button
         className="btn btn-outline-success my-2 my-sm-0"
         type="submit"
@@ -89,7 +79,7 @@ const FilterdPropertyByPrice = () => {
       >
         Search
       </button>
-      {/* </form> */}
+
       {renderRowsFromArr(cardsArr)}
       {cardsArr.length === 0 && (
         <h1 className="noCardMsg">
@@ -97,11 +87,6 @@ const FilterdPropertyByPrice = () => {
           them already make sure you search from 400,000
         </h1>
       )}
-      {/* {cardsArr.length > 0 &&  (
-        <h1 className="noCardMsg">
-          your cards will show up here after you create them
-        </h1>
-      )} */}
     </div>
   );
 };

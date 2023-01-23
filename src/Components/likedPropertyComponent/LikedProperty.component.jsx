@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck, faBan } from "@fortawesome/free-solid-svg-icons";
 const LikedPropertyComponent = (props) => {
+  
   const [id, setId] = useState(props._id);
   const userData = useSelector((state) => state.auth.userData);
   const [email, setEmail] = useState(userData.email);
@@ -13,11 +14,13 @@ const LikedPropertyComponent = (props) => {
     ev.preventDefault();
   };
   const handelIdChange = (ev) => {
-    setId(props._id);
+    setId(ev.target.value);
   };
+ 
   const handelEmailChange = (ev) => {
-    setEmail(userData.email);
+    setEmail(ev.target.value);
   };
+
 
   const hendeleConfirmClick = (ev) => {
     setId(props.id);

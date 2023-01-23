@@ -1,5 +1,4 @@
 .card-img-top:hover {
-  /* border: 2px solid; */
   cursor: pointer;
 }
 .card-body {
@@ -7,7 +6,6 @@
 }
 .card-pointer:hover {
   color: teal;
-  /* animation: rotate 0.5s; */
 }
 
 @keyframes rotate {
@@ -16,7 +14,7 @@
   }
 }
 .cardColor {
-  color: red;
+  color: rgb(68, 180, 255);
 }
 
 .form-check-input:hover {
@@ -27,8 +25,10 @@
 .card {
   margin-top: 5vh;
   margin-bottom: 5vh;
-  /* min-height: 690px;
-  max-width: 690px; */
+}
+
+.propertyLikeMsg {
+  color: gold;
 }
 .btnCard {
   display: flex;
@@ -36,7 +36,6 @@
 }
 .likeMsg {
   margin-top: 5vh;
-  /* display: none; */
 }
 .likeMsg:hover {
   color: red;
@@ -48,7 +47,6 @@ input:hover + .likeMsg {
   visibility: visible;
 }
 
-/* from here css for star*/
 .starContainer {
   position: relative;
 }
@@ -59,24 +57,21 @@ input:hover + .likeMsg {
   cursor: pointer;
 }
 .star:hover {
-  /* visibility: hidden;
-  font-size: 2rem; */
   cursor: pointer;
   animation: rotate 0.5s;
 }
 .star:before {
   content: "\2606";
-  /* content: "\2605"; */
+
   top: 10px;
   position: absolute;
 
   visibility: visible;
 }
 .star:checked:before {
-  content: "\2606";
+  content: "\2600";
   position: absolute;
 }
-/* until here css for star*/
 @media screen and (max-width: 850px) {
   input + .likeMsg {
     visibility: visible;

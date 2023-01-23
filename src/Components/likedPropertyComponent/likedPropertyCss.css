@@ -6,8 +6,6 @@
   height: 100vh;
   animation: bgChanger 1s;
   background-color: rgba(0, 0, 0, 0.5);
-
-  /* animation: bgChanger 1s infinite alternate; */
 }
 @keyframes bgChanger {
   from {

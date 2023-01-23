@@ -20,7 +20,6 @@ const CardComponent = ({
   onLike,
   onSeeProperty,
   extraInfo,
-  isCardLicked,
 }) => {
   const handelCardClick = (ev) => {
     onSeeProperty(_id);
@@ -31,61 +30,48 @@ const CardComponent = ({
   const handeleEditeClick = () => {
     onEdit(_id);
   };
-  const handeleLoadCard = () => {
-    isCardLicked(_id);
-  };
-  console.log("_id", _id);
+
+  const [isLikeProperty, setIsLikeProperty] = useState(false);
   const handeleLikecheckBtn = (ev) => {
     setIsLikeProperty(ev.target.checked);
     if (ev.target.checked === true) {
       onLike(_id);
-      console.log(ev.target.checked);
+
       setIsLikeProperty(true);
     }
   };
-  // const handleMsgesForLickedCrads = () => {
-  //   log;
-  // };
-  const [isLikeProperty, setIsLikeProperty] = useState(false);
+
   const [cardsArr, setCardsArr] = useState([]);
   const [allLickedPropertiesByUser, setAllLickedPropertiesByUser] = useState(
     []
   );
-  const [cardMsgLike, setCardMsgLike] = useState(false);
-  const handleCardsMsglike = () => {
-    setCardMsgLike(true);
-  };
 
   const isAdmin = useSelector((state) => state.auth.admin);
   const userEmail = useSelector((state) => state.auth.userData.email);
 
-  ////////////////////////////////////////////
-  //vfrfom heer adding all cards and licked cards
   useEffect(() => {
     getAllCards();
     handleLickedCards();
   }, []);
   const handleLickedCards = () => {
-    console.log("userEmail", userEmail);
-    axios
-      .get(`/properties/lickedPropertiesByUser?email=${userEmail}`)
-      .then((data) => {
-        console.log("data", data);
-        if (data.data.length > 0) {
-          const idesToSet = data.data.map((obj) => obj._id);
-          let newArrOfCards = cloneDeep(idesToSet);
+    if (userEmail) {
+      axios
+        .get(`/properties/lickedPropertiesByUser?email=${userEmail}`)
+        .then((data) => {
+          if (data.data.length > 0) {
+            const idesToSet = data.data.map((obj) => obj._id);
+            let newArrOfCards = cloneDeep(idesToSet);
 
-          // console.log("newArrOfCards", newArrOfCards);
-          cloneDeep(newArrOfCards);
+            cloneDeep(newArrOfCards);
 
-          setAllLickedPropertiesByUser([...newArrOfCards]);
-        }
-      })
-      .catch((err) => {
-        console.log("err from axios", err);
-      });
+            setAllLickedPropertiesByUser([...newArrOfCards]);
+          }
+        })
+        .catch((err) => {
+          console.log("err from axios", err);
+        });
+    }
   };
-  console.log("allLikedBuyUser", allLickedPropertiesByUser);
 
   const getAllCards = () => {
     axios
@@ -99,31 +85,22 @@ const CardComponent = ({
       });
   };
 
-  const checkIfCardsIsLicked = () => {
-    cardsArr.filter(
-      (allLickedPropertiesByUser) => cardsArr._id === allLickedPropertiesByUser
-    );
-  };
-  checkIfCardsIsLicked();
-  if (_id === allLickedPropertiesByUser) {
-    console.log("allLickedPropertiesByUser fro cards compont");
-  }
-  // console.log("allLickedPropertiesByUser", allLickedPropertiesByUser);
-  // console.log('cardsArr',cardsArr);
-
   return (
-    <div onLoad={handeleLoadCard} className="card  card-pointer">
+    <div className="card  card-pointer ">
       <img
         className="card-img-top "
         src={img}
         alt={description}
         onClick={handelCardClick}
       />
-      {allLickedPropertiesByUser.map((item) => item === _id && <h1>like</h1>)}
-      {/* {allLickedPropertiesByUser.filter(
-        (cardsArr) => allLickedPropertiesByUser._id === cardsArr
-      ) && <h1>licked</h1>} */}
-      {cardMsgLike === true && <h3>this property is licked</h3>}
+      {allLickedPropertiesByUser.map(
+        (item) =>
+          item === _id && (
+            <h1 key={_id} className="propertyLikeMsg">
+              You liked this property
+            </h1>
+          )
+      )}
 
       <div className="card-body p-5 ">
         <h5 className="card-title ">
@@ -141,18 +118,15 @@ const CardComponent = ({
         {window.location.pathname === "/allCards" && isAdmin === true && (
           <Fragment>
             <div className="starContainer">
-              {/* <span> */}
               <input
                 type="checkbox"
                 className="star"
-                // className="form-check-input star"
                 id="likePropCheckBox"
                 onChange={handeleLikecheckBtn}
                 checked={isLikeProperty}
               />
 
-              <p className="likeMsg">tick the box to like the property</p>
-              {/* </span> */}
+              <p className="likeMsg">click the star to like the property</p>
             </div>
           </Fragment>
         )}
@@ -161,30 +135,16 @@ const CardComponent = ({
           userEmail && (
             <Fragment>
               <div className="starContainer">
-                {/* <span> */}
                 <input
                   type="checkbox"
                   className="star"
-                  // className="form-check-input star"
                   id="likePropCheckBox"
                   onChange={handeleLikecheckBtn}
-                  checked={isLikeProperty}
                 />
 
-                <p className="likeMsg">tick the box to like the property</p>
-                {/* </span> */}
+                <p className="likeMsg">click the star to like the property</p>
               </div>
             </Fragment>
-            // <Fragment>
-            //   <input
-            //     type="checkbox"
-            //     className="form-check-input"
-            //     id="likePropCheckBox"
-            //     onChange={handeleLikecheckBtn}
-            //     checked={isLikeProperty}
-            //   />
-            //   <p className="likeMsg">tick the box to like the property</p>
-            // </Fragment>
           )}
         {window.location.pathname === "/LikedPropertyPage" && (
           <Fragment>
@@ -201,9 +161,8 @@ const CardComponent = ({
       </div>
       {window.location.pathname === "/DashbordPage" && isAdmin === true && (
         <div className="card-body btnCard   ">
-          {/* <div className="card-body btnCard d-flex justify-content-around  "> */}
           <button className="btn btn-warning " onClick={handeleEditeClick}>
-            Edite
+            Edit
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
           <button className="btn btn-danger" onClick={hendeleDedleteBtnClick}>

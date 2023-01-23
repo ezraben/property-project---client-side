@@ -20,12 +20,6 @@ function NavBarComponent() {
       return (
         <Fragment>
           {" "}
-          {/* <NavLink className="nav-link active" aria-controls="navbarNav" to="/">
-            <li className="nav-item active">
-              home <FontAwesomeIcon icon={faHome} />
-              <span className="sr-only">(current)home</span>
-            </li>
-          </NavLink> */}
           <li className="nav-item ">
             {" "}
             <NavLink className="nav-link  " to="/">
@@ -40,17 +34,17 @@ function NavBarComponent() {
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/CreateCardComponent">
-              CreateCardComponent
+              Create Card Component
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/LikedPropertyPage">
-              LikedPropertyPage
+              Liked Property Page
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/allCards">
-              allCards
+              all Cards
             </NavLink>
           </li>
           <li className="nav-item">
@@ -58,7 +52,6 @@ function NavBarComponent() {
               Logout <FontAwesomeIcon icon={faUserXmark} />
             </NavLink>
           </li>
-          {/* </div> */}
         </Fragment>
       );
     }
@@ -73,12 +66,12 @@ function NavBarComponent() {
 
           <li className="nav-item">
             <NavLink className="nav-link " to="/LikedPropertyPage">
-              LikedPropertyPage
+              Liked Property Page
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/allCards">
-              allCards
+              all Cards
             </NavLink>
           </li>
           <li className="nav-item">
@@ -98,12 +91,17 @@ function NavBarComponent() {
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/SignupPage">
-              Sighup <FontAwesomeIcon icon={faUser} />
+              Sign up <FontAwesomeIcon icon={faUser} />
             </NavLink>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link " to="/allCards">
-              allCards
+              all Cards
+            </NavLink>
+          </li>
+          <li className="nav-item">
+            <NavLink className="nav-link " to="/AboutPage">
+              About Page
             </NavLink>
           </li>
         </Fragment>
@@ -119,12 +117,7 @@ function NavBarComponent() {
     >
       <NavLink className="navbar-brand   " to="/">
         <div className="">
-          <img
-            src={logo}
-            alt="logo of the company"
-            className="logo"
-            // className="img-thumbnail logo"
-          />{" "}
+          <img src={logo} alt="logo of the company" className="logo" />{" "}
         </div>
         {userData.email ? userData.email : <p>You are not connected</p>}
       </NavLink>

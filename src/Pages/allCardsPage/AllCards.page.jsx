@@ -5,19 +5,16 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { cloneDeep } from "lodash";
 import CardComponent from "../../Components/CardComponent/Card.component";
-import { useDispatch } from "react-redux";
-import { authActions } from "../../store/auth";
-// import SearchBarComponent from "../../Components/SearchBarComponent/SearchBar.component";
+
+import { Link } from "react-router-dom";
+
 import LikedPropertyComponent from "../../Components/likedPropertyComponent/LikedProperty.component";
-import FilterdPropertyPage from "../filterdPropertyPage/FilterdProperty.page";
+
 import allCardsCss from "./allCardsCss.css";
-import { log } from "joi-browser";
 
 const AllCardPage = () => {
   const [cardsArr, setCardsArr] = useState([]);
-  const [allLickedPropertiesByUser, setAllLickedPropertiesByUser] = useState(
-    []
-  );
+
   const [city, setCity] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
@@ -44,17 +41,14 @@ const AllCardPage = () => {
 
   const [showLikedPropertyPopUp, setShowLikedPropertyPopUp] = useState(false);
   const userData = useSelector((state) => state.auth.userData);
-  const testForCard = useSelector(
-    (state) => state.auth.upLikedPropertiesByUser
-  );
+  const isAdmin = useSelector((state) => state.auth.admin);
+
   const [id, set_id] = useState();
 
   const history = useHistory();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     getAllCards();
-    handleLickedCards();
   }, [likedPropertyId]);
   useEffect(() => {}, []);
   const getCardsByCity = () => {
@@ -166,28 +160,6 @@ const AllCardPage = () => {
         toast("error");
       });
   };
-  ////////////////////////////////////
-
-  ////////////////////////////////////////
-
-  const handleLickedCards = () => {
-    axios
-      .get(`/properties/lickedPropertiesByUser?email=${userData.email}`)
-      .then((data) => {
-        if (data.data.length > 0) {
-          const idesToSet = data.data.map((obj) => obj._id);
-          let newArrOfCards = cloneDeep(idesToSet);
-
-          // console.log("newArrOfCards", newArrOfCards);
-          cloneDeep(newArrOfCards);
-
-          setAllLickedPropertiesByUser([...newArrOfCards]);
-        }
-      })
-      .catch((err) => {
-        console.log("err from axios", err);
-      });
-  };
 
   const getAllCards = () => {
     axios
@@ -209,49 +181,6 @@ const AllCardPage = () => {
         });
       });
   };
-
-  // console.log("allLickedPropertiesByUser", allLickedPropertiesByUser);
-  /////////////////////
-  //compinng licked cards  with all cards
-  const checkIfCardsIsLicked = () => {
-    cardsArr.filter(
-      (allLickedPropertiesByUser) => cardsArr._id === allLickedPropertiesByUser
-    );
-    // console.log("id froom filter", allLickedPropertiesByUser);
-    // console.log(
-    //   "allLickedPropertiesByUser from func",
-    //   allLickedPropertiesByUser
-    // );
-    // console.log("cardsArr from func", cardsArr);'
-    // return allLickedPropertiesByUser;
-  };
-  // console.log("checkIfCardsIsLicked()", checkIfCardsIsLicked());
-
-  ///////////////////////////////
-  //before adding licked cards to all cards
-
-  // const getAllCards = () => {
-  //   axios
-  //     .get(`/properties/allCards`)
-
-  //     .then((res) => {
-  //       setCardsArr(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log("axios error", err);
-  //       toast.error("cannot get cards", {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: false,
-  //         closeOnClick: true,
-  //         pauseOnHover: true,
-  //         draggable: true,
-  //         progress: undefined,
-  //       });
-  //     });
-  // };
-  ///////////////////////////////
-  // until here before adding licked cards to all cards
 
   const renderRowsFromArr = (arrOfItems) => {
     let newArr = [];
@@ -276,7 +205,6 @@ const AllCardPage = () => {
             {...arrOfItems[i]}
             onSeeProperty={getCardId}
             onLike={handleShowLikedPopUP}
-            isCardLicked={checkIfCardsIsLicked}
           />
         </div>,
       ];
@@ -293,7 +221,7 @@ const AllCardPage = () => {
   };
   return (
     <div className="topSpaceFromNav ">
-      <div className="d-flex space-between mb-1">
+      <div className="smallScreenBtn">
         <input
           className="form-control mr-sm-2"
           type="search"
@@ -322,14 +250,14 @@ const AllCardPage = () => {
       )}
 
       {filters === true && (
-        <div className="filters ">
+        <div className="filters m-5  ">
           <button
             className="btn btn-danger my-2 my-sm-0 "
             onClick={handleCloseFilter}
           >
             close filters
           </button>
-          <div className="d-flex justify-content-around  ">
+          <div className="smallScreenBtn">
             <input
               className="form mr-sm-2 priceInput"
               type="search"
@@ -338,25 +266,24 @@ const AllCardPage = () => {
               onChange={handeleminPriceChange}
               value={minPrice}
             />
-            <div className="d-flex justify-content-between">
-              <button
-                className="btn btn-success my-2 my-sm-0  "
-                type="submit"
-                onClick={getCardsByMinPrice}
-                value={minPrice}
-              >
-                Filter
-              </button>
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-                onClick={getCardsByMinPrice}
-              >
-                Refresh
-              </button>
-            </div>
+
+            <button
+              className="btn btn-success my-2 my-sm-0 btnSmall"
+              type="submit"
+              onClick={getCardsByMinPrice}
+              value={minPrice}
+            >
+              Filter
+            </button>
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+              onClick={getCardsByMinPrice}
+            >
+              Refresh
+            </button>
           </div>
-          <div className="d-flex justify-content-around">
+          <div className="smallScreenBtn">
             <input
               className="form-control mr-sm-2 priceInput"
               type="search"
@@ -365,28 +292,71 @@ const AllCardPage = () => {
               onChange={handeleMaxPriceChange}
               value={maxPrice}
             />
-            <div className="d-flex justify-content-around">
-              <button
-                className="btn btn-success my-2 my-sm-0"
-                type="submit"
-                onClick={getCardsByMaxPrice}
-              >
-                Filter
-              </button>
-              <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-                onClick={getCardsByMaxPrice}
-              >
-                Refresh
-              </button>
-            </div>
+
+            <button
+              className="btn btn-success my-2 my-sm-0 m-1"
+              type="submit"
+              onClick={getCardsByMaxPrice}
+            >
+              Filter
+            </button>
+            <button
+              className="btn btn-outline-success my-2 my-sm-0"
+              type="submit"
+              onClick={getCardsByMaxPrice}
+            >
+              Refresh
+            </button>
           </div>
         </div>
       )}
 
       <h1 className="mb-5"> All card page</h1>
-      {cardsArr.length === 0 && <h1 className="noCardMsg">no Properties </h1>}
+      {cardsArr.length === 0 && !userData.email && (
+        <div>
+          {" "}
+          <h1 className="noCardMsg">No Properties </h1>{" "}
+          <div className="text-center">
+            <h2 className="pb-2">Register, and create a Property</h2>
+            <Link to={"/SignupPage"}>
+              <button className=" btn btn-primary text-center ">Sign up</button>
+            </Link>
+          </div>
+        </div>
+      )}
+      {cardsArr.length === 0 && userData.email && isAdmin === false && (
+        <div>
+          {" "}
+          <h1 className="noCardMsg">No Properties </h1>{" "}
+          <div className="text-center">
+            <h3 className="pb-5">
+              No properties open an admin account and create a property, click
+              the button to open an admin account{" "}
+            </h3>
+            <Link to={"/SignupPage"}>
+              <button className=" btn btn-primary text-center ">
+                Register
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
+      {cardsArr.length === 0 && userData.email && isAdmin === true && (
+        <div>
+          {" "}
+          <h1 className="noCardMsg">No Properties </h1>{" "}
+          <div className="text-center">
+            <h3 className="pb-5">
+              To create a property card, click the button
+            </h3>
+            <Link to={"/CreateCardComponent"}>
+              <button className=" btn btn-primary text-center ">
+                Create Property card
+              </button>
+            </Link>
+          </div>
+        </div>
+      )}
       {renderRowsFromArr(cardsArr)}
       {showLikedPropertyPopUp && (
         <LikedPropertyComponent

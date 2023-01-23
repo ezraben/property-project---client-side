@@ -29,6 +29,7 @@ const EditPopUPComponent = (props) => {
   const handleExtraInfoChange = (ev) => {
     setExtraInfo(ev.target.value);
   };
+
   const handelSubmit = (ev) => {
     ev.preventDefault();
   };
@@ -155,6 +156,7 @@ const EditPopUPComponent = (props) => {
             value={extraInfo}
           />
         </div>
+
         <div className="row">
           <div className="col">
             {" "}

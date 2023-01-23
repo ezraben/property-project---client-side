@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
-// import CardComponent from "../../Components/CardComponent/Card.component";
+
 import SpecificCardCss from "./specificPropertyCss.css";
 const SpecificPropertyPage = () => {
   const [id, setId] = useState("");
