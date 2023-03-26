@@ -26,13 +26,32 @@ axios.defaults.baseURL = "http://localhost:3001/api";
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+  // const email = localStorage.getItem("email");
+  // const isAdmin = localStorage.getItem("admin");
   if (token) {
     //if token saved in localStorage then
     //I want to add the token to the header of the request
     config.headers["x-auth-token"] = token;
+    // config.headers = email;
+    // config.headers = isAdmin;
   }
   return config;
 });
+
+// axios.defaults.baseURL = "http://localhost:3001/api";
+
+// axios.interceptors.request.use((config) => {
+//   const token = localStorage.getItem("token");
+//   if (token) {
+
+//     //if token saved in localStorage then
+//     //I want to add the token to the header of the request
+//     config.headers["x-auth-token"] = token;
+//   }
+//   return config;
+// });
+///////////////////////////
+// until here before changes from cheat gpt
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

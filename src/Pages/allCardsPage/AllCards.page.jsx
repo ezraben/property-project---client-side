@@ -25,6 +25,9 @@ const AllCardPage = () => {
   const handeleCityChange = (ev) => {
     setCity(ev.target.value);
   };
+  // const handeleCityChange = (ev) => {
+  //   setCity(ev.target.value);
+  // };
   const handleShowFilters = (ev) => {
     setFilters(true);
   };

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 const ResetPasswordComponent = () => {
+  localStorage.clear();
   const [email, setEmail] = useState("");
   const handelEmail = (ev) => {
     setEmail(ev.target.value);

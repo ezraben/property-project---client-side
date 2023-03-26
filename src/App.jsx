@@ -1,5 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import jwt_decode from "jwt-decode";
+import { authActions } from "./store/auth";
+import { useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -27,6 +32,27 @@ import { Fragment } from "react";
 import AboutPage from "./Pages/aboutPage/AboutPage";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(authActions.login());
+    }
+  }, []);
+
+  // const userData = useSelector((state) => state.auth.userData);
+  // if (localStorage.getItem("token")) {
+  //   dispatch(
+  //     authActions.updateUserData(jwt_decode(localStorage.getItem("token")))
+  //   );
+  // dispatch(authActions.login());
+  // dispatch(authActions.upDateIsAdmin(localStorage.getItem("admin")));
+
+  //   // if (localStorage.getItem("admin")) {
+  //   //   console.log("admin", localStorage.getItem("admin"));
+  //   //   dispatch(authActions.isAdmin());
+  //   // }
+  // }
   return (
     <Fragment>
       <NavBarComponent />
